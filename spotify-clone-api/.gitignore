@@ -1,0 +1,10 @@
+node_modules/
+package-lock.json
+.DS_Store
+
+# dotenv environment variables file
+.env
+.env.test
+songs/
+red-hot.mp3
+

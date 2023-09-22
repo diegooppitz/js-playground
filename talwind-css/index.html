@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test page </title>
+  <link rel="stylesheet" type="text/css" href="output.css">
+
+  <script>
+    const socket = new WebSocket('ws://localhost:3000');
+
+    socket.onopen = function () {
+      console.log('connected with server.');
+      const inputsOnOpen =
+        socket.send(JSON.stringify({ status: "fill-inputs" }));
+    };
+
+
+    socket.onmessage = function (event) {
+      const inputInfoArray = pickUpInputs()
+
+      if (event.data == "reloadPage") {
+        const message = JSON.stringify({ status: "sent-inputs", inputs: inputInfoArray })
+        socket.send(message);
+
+        location.reload();
+      } else {
+        const serverData = JSON.parse(event.data) ?? null;
+        const serverHTML = serverData.html ?? null;
+        const serverInputs = serverData.inputs ?? null;
+
+        if (serverHTML) {
+          fillHTML(serverHTML);
+          fillInputs(serverInputs);
+        }
+      }
+
+    };
+
+    socket.onclose = function () {
+      console.log('connection finished by server.');
+    };
+
+    // fill inputs function
+    function fillHTML(serverHTML) {
+      document.documentElement.innerHTML = serverHTML;
+    }
+
+    async function fillInputs(serverInputs) {
+      const inputsDiv = document.getElementById('inputs-content');
+      inputsDiv.innerHTML = '';
+
+      for (const message of serverInputs) {
+        const inputElement = document.createElement('input');
+        inputElement.type = message.type ?? '';
+        inputElement.id = message.id ?? '';
+        inputElement.value = message.value ?? '';
+        inputElement.placeholder = message.placeholder ?? '';
+        inputElement.name = message.name ?? '';
+
+        inputsDiv.appendChild(inputElement);
+      }
+    }
+
+    function pickUpInputs() {
+      const inputElements = document.querySelectorAll('input');
+      const inputInfoArray = [];
+
+      inputElements.forEach((input, index) => {
+        if (!input.id) {
+          const newId = `input-${index}`
+          input.setAttribute('id', newId)
+        }
+        const inputInfo = {
+          value: input.value,
+          type: input.type,
+          id: input.id,
+        };
+
+        inputInfoArray.push(inputInfo);
+      });
+
+
+      return inputInfoArray
+    }
+
+  </script>
+</head>
+
+<body>
+  <h1 class="px-20">Talwind css project</h1>
+  <h2 class="text-red-600 px-12">text red</h2>
+  <div id="inputs-content">
+    <input type="text" id="message" placeholder="tip a message">
+    <input type="text" id="message" placeholder="tip a message">
+  </div>
+</body>
+
+</html>
