@@ -16,7 +16,7 @@ export function manageLocalStorage() {
 // check if have city on localStorage
 export function checkHaveCity({ city, cities }) {
     if (!cities) return false;
-    return cities.find((item) => item.location.lon === city?.location?.lon && item.location.lat === city?.location?.lat);
+    return cities.find((item) => item?.location?.lon === city?.location?.lon && item?.location?.lat === city?.location?.lat);
 }
 
 // redirect to a route
