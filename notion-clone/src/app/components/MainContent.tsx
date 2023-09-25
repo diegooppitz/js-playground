@@ -6,15 +6,8 @@ interface TextAreaProps {
   markdownText: string | null;
 }
 
-const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null }> = ({ pageDataToLoad }) => {
+const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: string | null, isHome: boolean | null, createNewPage: () => void }> = ({ pageDataToLoad, pageId, isHome = false, createNewPage }) => {
   const [textAreas, setTextAreas] = useState<{ id: string, markdownText: string | null }[]>([{ id: 'item-0', markdownText: null }]);
-  const [ableToSave, setAbleToSave] = useState(false);
-
-  const generateRandomPageId = () => {
-    const randomNumbers = Math.floor(Math.random() * 1000);
-    const paddedNumber = randomNumbers.toString().padStart(3, '0');
-    return `page-${paddedNumber}`;
-  }
 
   const generateId = (index: number): string => {
     return `item-${String(index)}`;
@@ -38,13 +31,12 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null }> = ({ pag
         obj.markdownText = markdownContent;
       }
     });
-
-    setAbleToSave(true);
   };
 
   const savePageData = async () => {
     try {
-      const dataToSave = textAreas ? { pageId: 'page1', textAreas } : null;
+      console.log("textareas", textAreas)
+      const dataToSave = textAreas ? { pageId, textAreas } : null;
       if (!dataToSave) return;
 
       const response = await fetch('/api/manage-pages-data', {
@@ -68,6 +60,8 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null }> = ({ pag
 
   const loadPage = async () => {
     if(pageDataToLoad && pageDataToLoad.length > 0) setTextAreas(pageDataToLoad)
+    console.log("test", pageDataToLoad)
+    setTextAreas(pageDataToLoad)
   }
 
   useEffect(() => {
@@ -79,19 +73,16 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null }> = ({ pag
       setTextAreas([{ id: 'item-0', markdownText: null }])
     }
 
-    if (textAreas && ableToSave) savePageData();
+    // if (textAreas) savePageData();
   }, [textAreas])
 
 
   return (
     <div className='main-content'>
-      {!pageDataToLoad ?
+      {!isHome && textAreas ?
         textAreas.map((textAreaObject, index) => (
           <MarkdownEditor insertTextAreaValue={null} newTextArea={newTextArea} saveContentTextArea={saveContentTextArea} key={textAreaObject.id} id={textAreas[index].id} removeEmpty={removeEmpty} />
-        )) :
-        textAreas.map((textAreaObject, index) => (
-          <MarkdownEditor insertTextAreaValue={textAreaObject.markdownText} newTextArea={newTextArea} saveContentTextArea={saveContentTextArea} key={textAreaObject.id} id={textAreas[index].id} removeEmpty={removeEmpty} />
-        ))
+        )) : <a onClick={createNewPage}><h1>No pages, create a new one</h1></a>
       }
     </div>
   );

@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className="notion-app">
       <Sidebar />
-      <MainContent />
+      <MainContent isHome={true} />
     </div>
   );
 };

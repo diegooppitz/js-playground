@@ -1,13 +1,14 @@
 "use client";
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import MainContent from '../components/MainContent';
 
 const DynamicPage = () => {
-    const [pageData, setPageData] = useState(null);
-    const searchParams = useSearchParams()
-    const pageId = searchParams?.get('id') ?? '';
+  const [pageData, setPageData] = useState(null);
+  const searchParams = useSearchParams()
+  const pageId = searchParams?.get('id') ?? '';
+  const router = useRouter()
 
   const loadPageData = async () => {
     try {
@@ -17,14 +18,14 @@ const DynamicPage = () => {
           'Content-Type': 'application/json',
         },
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        setPageData(data.textAreas);
-        console.log('loaded data:', data);
-      } else {
-        console.error('data load error.');
-      }
+
+      const data = await response.json();
+      console.log("it", data)
+      if (data) {
+        if(data.error) router.push('/error')
+        else setPageData(data.textAreas);
+      } 
+
     } catch (error) {
       console.error('load request error:', error);
     }
@@ -37,7 +38,7 @@ const DynamicPage = () => {
   return (
     <div className="notion-app">
       <Sidebar />
-      <MainContent pageDataToLoad={pageData} />
+      <MainContent pageDataToLoad={pageData} pageId={pageId} />
     </div>
   );
 };

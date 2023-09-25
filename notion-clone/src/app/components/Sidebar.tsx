@@ -1,59 +1,81 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'
-import SearchIcon from '@mui/icons-material/Search';
-import SettingsIcon from '@mui/icons-material/Settings';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ProfilePicture from "../../assets/profile-picture.png"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DescriptionIcon from '@mui/icons-material/Description';
 import Image from 'next/image';
 
-interface MenuItem {
-  name: string;
-  id: string;
-}
+const Sidebar: React.FC = () => {
+  const [pagesData, setPagesData] = useState(null);
 
-interface IconProps {
-  iconName: string | null;
-}
+  const router = useRouter()
 
-const menuMock: MenuItem[] = [
-  { name: "Search", id: "search" },
-  { name: 'Updates', id: "updates" },
-  { name: 'Settings & members', id: "settings" },
-  { name: 'New Page', id: "new-page" }
-];
+  const generateRandomPageId = () => {
+    const randomNumbers = Math.floor(Math.random() * 1000);
+    const paddedNumber = randomNumbers.toString().padStart(3, '0');
+    return `page-${paddedNumber}`;
+  }
 
-const pagesMock: MenuItem[] = [
-  { name: "Page 353", id: "page-353"},
-];
+  const createNewPage = async () => {
+    const newPageId = generateRandomPageId();
+    console.log("new page", newPageId);
+    try {
+      const newPageData = {
+        "pageId": newPageId,
+        "name": newPageId,
+        "textAreas": []
+      }
 
-const IconComponent: React.FC<IconProps> = ({ iconName }) => {
-  const returnIcon = (): React.ReactElement | null => {
-    switch (iconName) {
-      case 'search':
-        return <SearchIcon sx={{ cursor: "pointer", fontSize: 18 }} />
-      case 'settings':
-        return <SettingsIcon sx={{ cursor: "pointer", fontSize: 16 }} />
-      case 'updates':
-        return <AccessTimeIcon sx={{ cursor: "pointer", fontSize: 16 }} />
-      case 'new-page':
-        return <AddCircleIcon sx={{ cursor: "pointer", fontSize: 16 }} />
-      default:
-        return null;
+      const response = await fetch('/api/manage-pages-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newPageData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        router.push(`/pages?id=${newPageId}`);
+        console.log('save data:', data);
+      } else {
+        console.error('data save error.');
+      }
+    } catch (error) {
+      console.error('request error:', error);
+    }
+  }
+
+  const handleMenuItemClick = async (id: string | null) => {
+    console.log("aqui", id)
+    if (id === "new-page") createNewPage();
+    else if (id) router.push(`/pages?id=${id}`)
+  }
+
+  const loadPagesData = async () => {
+    const newPageOption =  { name: 'New Page', pageId: "new-page" }
+
+    try {
+      const response = await fetch(`/api/manage-pages-data`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      let data = await response.json();
+      data.push(newPageOption);
+
+      if (data) setPagesData(data);
+    } catch (error) {
+      console.error('load request error:', error);
     }
   };
 
-  return returnIcon();
-};
-
-const Sidebar: React.FC = () => {
-  const router = useRouter()
-
-  const handleMenuItemClick = (id: string | null) => {
-    if(id) router.push(`/pages?id=${id}`)
-  }
+  useEffect(() => {
+    loadPagesData()
+  }, [])
 
   return (
     <div className="sidebar">
@@ -61,19 +83,13 @@ const Sidebar: React.FC = () => {
         <Image src={ProfilePicture} alt="profile picture" />
         <p>Fulano notion</p>
       </div>
-      {/* <ul className="menu">
-        {menuMock.map((menuItem, index) => (
-          <li key={index} className="menuItem">
-            <IconComponent iconName={menuItem.id} />
-            <p>{menuItem.name}</p></li>
-        ))}
-      </ul> */}
       <ul className='pages'>
-        {pagesMock.map((menuItem, index) => (
-          <li key={index} className="menuItem" onClick={() => handleMenuItemClick(menuItem.id)}>
-            <DescriptionIcon sx={{ cursor: "pointer", fontSize: 16 }} />
+        {pagesData && pagesData.map((menuItem, index) => (
+          <li key={index} className="menuItem" onClick={() => handleMenuItemClick(menuItem.pageId)}>
+            {menuItem.id === "new-page" ? <AddCircleIcon sx={{ cursor: "pointer", fontSize: 16 }} /> : <DescriptionIcon sx={{ cursor: "pointer", fontSize: 16 }} />}
             <p>{menuItem.name}</p></li>
         ))}
+
       </ul>
     </div>
   );
