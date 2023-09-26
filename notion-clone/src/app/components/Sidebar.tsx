@@ -19,7 +19,8 @@ const Sidebar: React.FC = () => {
 
   const createNewPage = async () => {
     const newPageId = generateRandomPageId();
-    console.log("new page", newPageId);
+    const newPageOption =  { name: 'New Page', pageId: "new-page" }
+
     try {
       const newPageData = {
         "pageId": newPageId,
@@ -36,9 +37,11 @@ const Sidebar: React.FC = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        let data = await response.json();
+        data.push(newPageOption);
+
+        setPagesData(data);
         router.push(`/pages?id=${newPageId}`);
-        console.log('save data:', data);
       } else {
         console.error('data save error.');
       }
@@ -48,7 +51,6 @@ const Sidebar: React.FC = () => {
   }
 
   const handleMenuItemClick = async (id: string | null) => {
-    console.log("aqui", id)
     if (id === "new-page") createNewPage();
     else if (id) router.push(`/pages?id=${id}`)
   }

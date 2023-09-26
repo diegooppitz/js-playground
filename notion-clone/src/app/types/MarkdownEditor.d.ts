@@ -5,6 +5,7 @@ interface MarkdownEditorProps {
   newTextArea: () => void;
   saveContentTextArea: (id: string, htmlContent: string) => void;
   removeEmpty: (index: string) => void;
+  isHome: boolean | null;
   id: string;
 }
 

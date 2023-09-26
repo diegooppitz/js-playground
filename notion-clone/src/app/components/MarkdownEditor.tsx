@@ -19,7 +19,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ link, text }) => {
   </div>
 }
 
-const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, saveContentTextArea, newTextArea, removeEmpty, id, }) => {
+const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, isHome = null, saveContentTextArea, newTextArea, removeEmpty, id }) => {
   const [markdownText, setMarkdownText] = useState('');
   const [showTextArea, setShowTextArea] = useState(true);
   const [textSpaceElementHeight, setTextSpaceElementHeight] = useState<number | null>(null);
@@ -46,8 +46,10 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
     try {
       let isTextTag = true;
       if(!markdown) return;
+      console.log("markdown 1", markdown)
 
       markdown = markdown.replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (_, linkText, url) => {
+
         isTextTag = false;
         setIsLink(true);
         setLink(url);
@@ -79,6 +81,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
         return `<ul>${listItems}</ul>`;
       });
 
+      console.log("markdown2", markdown)
+
       setHtmlContent(markdown)
     } catch {
       setHtmlContent('')
@@ -91,7 +95,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
-      newTextArea();
+      if(!isHome) newTextArea();
       event.preventDefault();
       setShowTextArea(true);
       setShowLinkPreview(false);
@@ -100,7 +104,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
 
   const handleBlur = async () => {
     if (!markdownText && !insertTextAreaValue) {
-      removeEmpty(id);
+      if(!isHome) removeEmpty(id);
       return;
     }
 
@@ -111,7 +115,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
   };
 
   const handleHoverLink = async () => {
-    if (isLink && !showTextArea) setShowLinkPreview(true);
+    if (isLink) setShowLinkPreview(true);
+    
   }
 
   const handleMouseLeave = async () => {
@@ -149,10 +154,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
   }, [insertTextAreaValue])
 
   useEffect(() => {
-    if (markdownText){
-      console.log("md text", markdownText)
-      saveContentTextArea(id, markdownText)
-    } 
+    if (markdownText && !isHome) saveContentTextArea(id, markdownText)
+    
 
     const textAreaElement = textAreaRef?.current;
     if (textAreaElement && htmlContent) {
@@ -162,7 +165,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, sa
 
 
   return (
-    showTextArea ? (
+    showTextArea && !isHome ? (
       <textarea
         id="text-area"
         ref={textAreaRef}

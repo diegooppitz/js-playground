@@ -20,7 +20,6 @@ const DynamicPage = () => {
       });
 
       const data = await response.json();
-      console.log("it", data)
       if (data) {
         if(data.error) router.push('/error')
         else setPageData(data.textAreas);
@@ -33,7 +32,8 @@ const DynamicPage = () => {
 
   useEffect(() => {
     loadPageData()
-  }, [])
+  }, [pageId])
+
 
   return (
     <div className="notion-app">

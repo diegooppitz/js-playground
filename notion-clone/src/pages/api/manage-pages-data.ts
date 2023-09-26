@@ -46,8 +46,6 @@ export default function managePagesData(req: NextApiRequest, res: NextApiRespons
       if (pages.some(item => item.pageId === pageId)) return res.status(409).json({ error: "Page with the same pageId already exists." });
 
       pages.splice(1, 0, req.body);
-      console.log("Added pages", pages);
-
       res.status(200).json(pages);
     } catch (error) {
       res.status(500).json({ error: error });
@@ -57,7 +55,6 @@ export default function managePagesData(req: NextApiRequest, res: NextApiRespons
     try {
       const pageId = req?.query?.pageId;
       console.log("pages", pages)
-      console.log("pageId", pageId)
 
       if(!pageId && pages.length > 0) return res.status(200).json(pages);
       else if(pageId && pages.length > 0) {
