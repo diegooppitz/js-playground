@@ -46,7 +46,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
     try {
       let isTextTag = true;
       if(!markdown) return;
-      console.log("markdown 1", markdown)
+      // console.log("markdown 1", markdown)
 
       markdown = markdown.replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (_, linkText, url) => {
 
@@ -81,7 +81,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
         return `<ul>${listItems}</ul>`;
       });
 
-      console.log("markdown2", markdown)
+      // console.log("markdown2", markdown)
 
       setHtmlContent(markdown)
     } catch {
@@ -155,7 +155,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
 
   useEffect(() => {
     if (markdownText && !isHome) saveContentTextArea(id, markdownText)
-    
 
     const textAreaElement = textAreaRef?.current;
     if (textAreaElement && htmlContent) {

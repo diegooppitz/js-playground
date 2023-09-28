@@ -36,6 +36,8 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
         obj.markdownText = markdownContent;
       }
     });
+  
+    if(!pageDataToLoad || textAreas?.length > pageDataToLoad?.length) savePageData();
   };
 
   const savePageData = async () => {
@@ -50,19 +52,14 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
         },
         body: JSON.stringify(dataToSave),
       });
-
-      if (response.ok) {
-        const data = await response.json();
-      } else {
-        console.error('data save error.');
-      }
+      const data = await response.json();
     } catch (error) {
       console.error('request error:', error);
     }
   };
 
   const loadPage = async () => {
-    if (pageDataToLoad && pageDataToLoad.length > 0) setTextAreas(pageDataToLoad)
+    if (pageDataToLoad && pageDataToLoad.length != 0) setTextAreas(pageDataToLoad)
     setTextAreas(pageDataToLoad)
   }
 
@@ -71,11 +68,7 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
   }, [pageDataToLoad])
 
   useEffect(() => {
-    if (!textAreas || textAreas.length === 0) {
-      setTextAreas([{ id: 'item-0', markdownText: null }])
-    }
-
-    // if (textAreas) savePageData();
+    if (!textAreas || textAreas.length === 0) setTextAreas([{ id: 'item-0', markdownText: null }])
   }, [textAreas])
 
   return (
@@ -85,6 +78,7 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
           <MarkdownEditor insertTextAreaValue={textAreaObject.markdownText} newTextArea={newTextArea} saveContentTextArea={saveContentTextArea} key={textAreas[index].id} id={textAreas[index].id} removeEmpty={removeEmpty} />
         ))
       )};
+
       {isHome && homeData && (
         homeData.map((textAreaObject, index) => (
           <MarkdownEditor insertTextAreaValue={textAreaObject.markdownText} key={homeData[index].id} id={homeData[index].id} removeEmpty={removeEmpty} isHome={true} />

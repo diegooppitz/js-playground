@@ -24,10 +24,6 @@ let pages: ServerTextArea[] = [
         "id": "item-1",
         "markdownText": "## title 2"
       },
-      {
-        "id": "item-2",
-        "markdownText": null
-      }
     ]
   }
 
@@ -38,16 +34,30 @@ export default function managePagesData(req: NextApiRequest, res: NextApiRespons
     try {
       const pageId = req?.body?.pageId;
       const name = req?.body?.name;
+      const isUpdate = true;
+      // const isUpdate = req?.body?.isUpdate;
       const textAreas = req?.body?.textAreas;
 
       console.log("body", req.body)
 
       if (!pageId || !textAreas || !Array.isArray(textAreas)) return res.status(400).json({ error: "Invalid request body format." });
-      if (pages.some(item => item.pageId === pageId)) return res.status(409).json({ error: "Page with the same pageId already exists." });
 
-      pages.splice(1, 0, req.body);
-      res.status(200).json(pages);
-    } catch (error) {
+      else if (!isUpdate && pages.some(item => item.pageId === pageId)) {
+         return res.status(409).json({ error: "Page with the same pageId already exists." });
+      }
+
+      else if(!isUpdate) {
+        pages.splice(1, 0, req.body);
+        res.status(200).json(pages);
+      } 
+
+      else {
+        const currentPageIndex = pages.findIndex(obj => obj.pageId === pageId);
+        if (currentPageIndex !== -1) pages[currentPageIndex] = req.body;
+      }
+    } 
+
+    catch (error) {
       res.status(500).json({ error: error });
     }
   }
