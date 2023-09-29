@@ -35,23 +35,20 @@ const Sidebar: React.FC = () => {
         },
         body: JSON.stringify(newPageData),
       });
+      let data = await response.json();
+      data.push(newPageOption);
 
-      if (response.ok) {
-        let data = await response.json();
-        data.push(newPageOption);
-
-        setPagesData(data);
-        router.push(`/pages?id=${newPageId}`);
-      } else {
-        console.error('data save error.');
-      }
+      setPagesData(data);
+      router.push(`/pages?id=${newPageId}`);
     } catch (error) {
       console.error('request error:', error);
     }
   }
 
   const handleMenuItemClick = async (id: string | null) => {
-    if (id === "new-page") createNewPage();
+    if (id === "new-page") {
+      createNewPage();
+    }
     else if (id) router.push(`/pages?id=${id}`)
   }
 

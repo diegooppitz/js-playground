@@ -21,8 +21,8 @@ const DynamicPage = () => {
 
       const data = await response.json();
       if (data) {
-        if(data.error) router.push('/error')
-        else setPageData(data.textAreas);
+        if(data?.error) router.push('/error');
+        setPageData(data.textAreas);
       } 
 
     } catch (error) {
