@@ -1,8 +1,0 @@
-Factory Method Pattern:
-the Factory Method Pattern can create objects representing different types of products with varying tax rates. Each product class (e.g., ProductA, ProductB, etc.) can have a factory method that returns an instance of the product. This enables flexible product creation based on specific criteria, such as the state and the year.
-Strategy Pattern:
-The Strategy Pattern can be valuable for handling different tax rates per state. I can create a tax strategy for each state and then select the appropriate strategy based on the current state of the product. This allows me to dynamically change the tax calculation strategy without altering the product code.
-State Pattern:
-If taxes also vary from year to year, and the system’s behavior changes based on the year, the State Pattern can be useful for managing the different states of the system (i.e., different tax configurations per year). Each state can encapsulate the specific tax logic for a given year.
-Template Method Pattern:
-If there is a common framework for calculating taxes but with specific variations for each product type, I can use the Template Method Pattern to define a skeleton tax calculation algorithm with specific parts defined by subclasses.
