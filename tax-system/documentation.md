@@ -88,4 +88,4 @@ O sistema fornece uma solução para calcular impostos de produtos de forma din�
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
 
-## Diagrama(ainda está no início)
+## Diagrama(Ver pelo Notion)
