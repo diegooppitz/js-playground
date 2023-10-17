@@ -2,12 +2,30 @@
 
 # Tax System Docs
 
-Este sistema tem como objetivo calcular impostos de produtos com base em diferentes critérios, como o estado de venda, o valor do produto e o ano. Ele permite:
+Este sistema tem como objetivo calcular impostos de produtos com flexibilidade e baseado nos critérios de estado fiscal**, ano de venda e o produto. 
 
-- Definir um estado fiscal** atual, que afeta as taxas de imposto.
-- Criar produtos personalizados, especificando seu estado fiscal**, ano e preço.
-- Calcular o imposto de um produto usando as regras fiscais específicas para o estado fiscal** e o ano selecionados.
-- Flexibilidade para lidar com mudanças nas regras fiscais para cada estado fiscal** ou ano e até mesmo para outras possíveis novas regras.
+É necessário objetos e classes:
+
+- **Estado fiscal**:**
+    - Classe que vai montar objetos taxState
+    - Design Pattern:  Algum de construção
+    - O que é necessário: nome, id, regras fiscais.
+    - a ideia é: ter um objeto com vários estados fiscais** e será necessário poder cadastrar mais estados fiscais** ou exclui-los.
+- **Ano:**
+    - Classe que vai montar objetos Ano
+    - Design Pattern: Algum de construção
+    - Será necessário: id, regras fiscais.
+    - A ideia é : ter um objeto com vários anos podendo exclui-los ou adicionar novos
+- **Produtos personalizados:**
+    - Classe que vai montar objetos Product
+    - Design Pattern: Algum de construção
+    - Será necessário: nome, estado fiscal**,  ano e preço.
+    - A ideia é : ter um objeto com vários produtos, podendo exclui-los ou adicionar novos
+- **Calcular valor de imposto:**
+    - Classe que vai calcular impostos dos produtos
+    - Design pattern:  Strategy
+    - Infos que vai receber: Receberá informações dos objetos de estado fiscal**,  ano e de produto.
+    - A ideia é: Vai calcular o imposto de um produto a partir das as informações que receber.
 
 ### O sistema utiliza dois design patterns:
 
