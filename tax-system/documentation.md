@@ -1,58 +1,64 @@
-[Notion Page with Documentation](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
+[Pagina no Notion com Docs e Diagrama](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 # Tax System Docs
+A ideia deste sistema é permitir que o usuário crie produtos e tenha um calculo automatizado de impostos baseado em critérios de estado fiscal e ano do produto.
 
-Este sistema tem como objetivo calcular impostos de produtos com flexibilidade e baseado nos critérios de estado fiscal**, ano de venda e do produto. 
+Basicamente o sistema permite a criação e configuração flexível de produtos com base em diferentes critérios fiscais que deverá receber e então realiza o cálculo de impostos com base nas aliquotas de impostos definidas para os estados e anos correspondentes. Isso torna o gerenciamento de informações fiscais mais organizado e facilita a criação e modificação de produtos tendo os impostos calculados de forma precisa.
 
-É necessário objetos e classes:
-
-### Resumo
-
-O sistema permite a configuração flexível de produtos com base em diferentes critérios fiscais e automatiza o cálculo de impostos com base nas taxas definidas para os estados e anos correspondentes. Isso torna o gerenciamento de informações fiscais mais organizado e facilita a criação e modificação de produtos com impostos calculados de forma precisa.
-
-O sistema é projetado para lidar com cálculos fiscais relacionados a produtos com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Ele fornece as seguintes funcionalidades:
+É projetado para lidar com cálculos fiscais relacionados a produtos com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Ele fornece as seguintes classes:
 
 1. **Classe "Estado Fiscal":** Permite gerenciar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Os usuários podem adicionar, remover ou modificar estados fiscais.
-2. **Classe Ano:** Gerencia informações sobre os anos fiscais, incluindo taxas de ICMS e IPI para cada ano. Os usuários podem adicionar, remover ou modificar anos fiscais.
-3. **Classe Produto:** Permite criar objetos de produto personalizados. Calcula o valor do imposto com base nas taxas de estado e ano.
-4. **Classe de controle do sistema:** Coordena a interação entre as classes do sistema. Ela inicializa o sistema e garante o uso correto das taxas no cálculo de impostos dos produtos.
+2. **Classe Produto:** Permite criar objetos de produto personalizados. Calcula o valor do imposto com base na aliquota de impostos que receber.
+3. **Classe de controle do sistema:** Coordena a interação entre as classes do sistema. Ela inicializa o sistema e garante o uso correto das taxas no cálculo de impostos dos produtos.
 
-### 1**. Classe de Estado Fiscal:**
+### 1**. Classe TaxState:**
 
-- **Design Pattern:**  Padrão **Singleton** para garantir que exista apenas uma instância da classe representando todos os estados fiscais, pois cada estado é único.
-- **Campos:** Nome, ID, ICMS (Imposto sobre Circulação de Mercadorias e Serviços), IPI (Imposto sobre Produtos Industrializados).
+- **Design Pattern:**  Padrão **Singleton** para garantir que exista apenas uma instância da classe representando todos os estados fiscais.
+- **Campos:**
+    - Nome
+    - ID
+    - Ano
+    - **objeto de anos:**
+        - aliquota do imposto ICMS →  para cada ano
+        - aliquota do imposto IPI → para cada ano
+        - id → para cada ano
 - **Funcionalidades:**
     - Adicionar ou remover estados fiscais.
-    - Modificar as taxas de ICMS e/ou IPI para cada estado.
-- **Responsabilidades:** Gerenciar e fornecer informações sobre estados fiscais, como nome, ID e taxas de impostos.
+    - Modificar as aliquotas de ICMS e/ou IPI para cada estado fiscal.
+    - Deve retornar as aliquotas de impostos(ICMS/IPI) do estado fiscal para um determinado ano.
+- **Responsabilidades:** Gerenciar e fornecer informações sobre estados fiscais como nome, ID e aliquota de impostos(ICMS/IPI) em cada ano.
 
-### **2. Classe de Ano:**
-
-- **Design Pattern:** Singleton para garantir que haja apenas uma instância global de anos fiscais.
-- **Campos:** ID do ano, taxas de ICMS e IPI.
-- **Funcionalidades:**
-    - Adicionar ou remover anos.
-    - Modificar as taxas de ICMS e IPI para cada ano.
-- **Responsabilidades:** Gerenciar informações sobre os anos e as taxas de impostos associadas a cada ano.
-
-### **3. Classe de Produto:**
+### 2**. Classe Product:**
 
 - **Design Pattern:** **Builder** para criar objetos **`Produto`** com configurações flexíveis e mais complexas.
-- **Campos:** Nome, Estado Fiscal, Ano, Valor do Produto (sem impostos) e ID do Produto.
+- **Campos:**
+    - Nome
+    - Estado Fiscal
+    - Valor do Produto (sem impostos)
+    - ID do Produto.
 - **Funcionalidades:**
     - Adicionar ou remover produtos.
     - Modificar os detalhes de um produto.
-    - Calcular o valor do imposto com base nas taxas de estado e ano.
-- **Responsabilidades:** Criar objetos de produto configuráveis e calcular impostos com base nas informações fornecidas.
+    - Calcular o valor do imposto com base nas aliquotas de cada estado fiscal e ano.
+- **Responsabilidades:** Criar objetos de produto configuráveis e calcular impostos com base nas informações recebidas.
 
-### **4. Classe de controle do sistema:**
+### 3**. Classe TaxSystem:**
 
 - **Design Pattern: Facade**, interface unificada, o sistema fica mais centralizado e fácil de usar.
-- Responsabilidades: Responsável por gerenciar a interação entre as classes, por exemplo: vai chamar primeiro as classes de Estado Fiscal e de ano, para monta-los, após isso deve chamar a classe de produto, para monta-lo.
+- **Responsabilidades:** Responsável por gerenciar a interação entre as classes, por exemplo: vai chamar primeiro a classe de Estado Fiscal para monta-la, após isso deve chamar a classe de produto.
 - **Funcionalidades**:
     - Inicializar o sistema de estados fiscais com instâncias dos estados.
-    - Inicializar o sistema de anos com informações de anos fiscais.
     - Coordenar a criação, modificação e remoção de estados, anos e produtos.
-    - Garantir que as taxas apropriadas sejam usadas no cálculo de impostos dos produtos.
+    - Garantir que as aliquotas apropriadas sejam usadas no cálculo de impostos dos produtos.
+
+## Fluxo:
+
+- Deve ser inicializada a classe de TaxSystem
+    - esta classe sera responsavel por gerenciar as outras classes.
+    - uma ideia é: na classe TaxSystem, adicionar um cadastro para o usuário adicionar as infos de estado fiscal, ano e produto(verificar se é possível fazer isso neste design pattern)
+- Deve ser inicializada a classe de estado fiscal.
+    - Ela vai retornar as aliquotas de impostos(ICMS/IPI) referente a um determinado estado fiscal em um determinado ano.
+- Deve ser inicializada a classe de produto
+    - Onde devera ser calculado o valor do produto com base nas aliquotas de ICMS e/ou IPI retornadas da classe de estado fiscal.
 
 ## Legenda:
 
