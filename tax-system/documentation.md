@@ -1,16 +1,33 @@
 [Pagina no Notion com Docs e Diagrama](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
+
 # Tax System Docs
-A ideia deste sistema é permitir que o usuário crie produtos e tenha um calculo automatizado de impostos baseado em critérios de estado fiscal e ano do produto.
 
-Basicamente o sistema permite a criação e configuração flexível de produtos com base em diferentes critérios fiscais que deverá receber e então realiza o cálculo de impostos com base nas aliquotas de impostos definidas para os estados e anos correspondentes. Isso torna o gerenciamento de informações fiscais mais organizado e facilita a criação e modificação de produtos tendo os impostos calculados de forma precisa.
+## Problema a ser resolvido pelo sistema:
 
-É projetado para lidar com cálculos fiscais relacionados a produtos com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Ele fornece as seguintes classes:
+É necessário um sistema o qual deverá possibilitar o cadastro de diferente produtos, em diferentes estados fiscais e anos, as alíquotas de impostos para cada produto, devera mudar conforme o seu valor, seu estado fiscal e seu ano.
 
-1. **Classe "Estado Fiscal":** Permite gerenciar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Os usuários podem adicionar, remover ou modificar estados fiscais.
-2. **Classe Produto:** Permite criar objetos de produto personalizados. Calcula o valor do imposto com base na aliquota de impostos que receber.
-3. **Classe de controle do sistema:** Coordena a interação entre as classes do sistema. Ela inicializa o sistema e garante o uso correto das taxas no cálculo de impostos dos produtos.
+## Apresentação do sistema:
 
-### 1**. Classe TaxState:**
+A ideia é permitir que o usuário crie produtos e tenha um calculo automatizado de impostos baseado em critérios de estado fiscal e ano do produto.
+
+Basicamente o sistema permite a criação e configuração flexível de produtos com base em diferentes critérios fiscais que deverá receber e então realiza o cálculo de impostos com base nas alíquotas de impostos definidas para os estados e anos correspondentes. Isso torna o gerenciamento de informações fiscais mais organizado e facilita a criação e modificação de produtos tendo os impostos calculados de forma precisa.
+
+É projetado para lidar com cálculos fiscais relacionados a produtos com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Utilizara as seguintes classes:
+
+1. **TaxSystem:** Está é a classe classe de controle, coordena a interação entre as classes do sistema, Inicializando ele e colabora com o uso correto das taxas no cálculo de impostos dos produtos.
+2. **TaxState:** Esta classe permite gerenciar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Os usuários podem adicionar, remover ou modificar estados fiscais.
+3. **Product:** Esta classe permite criar objetos de produtos personalizados. Calcula o valor do imposto com base na alíquota de impostos que receber.
+
+### **Classe TaxSystem:**
+
+- **Design Pattern: Facade**, interface unificada, o sistema fica mais centralizado e fácil de usar.
+- **Responsabilidades:** Responsável por gerenciar a interação entre as classes, por exemplo: vai chamar primeiro a classe de Estado Fiscal para monta-la, após isso deve chamar a classe de produto.
+- **Funcionalidades**:
+    - Inicializar o sistema de estados fiscais com instâncias dos estados.
+    - Coordenar a criação, modificação e remoção de estados, anos e produtos.
+    - Garantir que as alíquotas apropriadas sejam usadas no cálculo de impostos dos produtos.
+
+### **Classe TaxState**
 
 - **Design Pattern:**  Padrão **Singleton** para garantir que exista apenas uma instância da classe representando todos os estados fiscais.
 - **Campos:**
@@ -22,12 +39,13 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
         - aliquota do imposto IPI → para cada ano
         - id → para cada ano
 - **Funcionalidades:**
-    - Adicionar ou remover estados fiscais.
-    - Modificar as aliquotas de ICMS e/ou IPI para cada estado fiscal.
-    - Deve retornar as aliquotas de impostos(ICMS/IPI) do estado fiscal para um determinado ano.
-- **Responsabilidades:** Gerenciar e fornecer informações sobre estados fiscais como nome, ID e aliquota de impostos(ICMS/IPI) em cada ano.
+    - Adicionar, editar e remover estados fiscais.
+    - Adicionar, editar e remover anos que estão dentro de um determinado estado fiscal.
+    - Retornar as alíquotas de ICMS e/ou IPI a partir da combinação de estado fiscal e ano que um produto em específico vai precisar.
+    - A classe terá um método que retornará as alíquotas do produto, o qual poderá durante a execução do sistema ser chamado pela classe Product, como a Instância desta classe é única, a classe Product utilizara a instância que estará na classe TaxSystem, a qual naturalmente deve gerenciar o sistema, incluindo as instancias.
+- **Responsabilidades:** Gerenciar e fornecer informações sobre estados fiscais como nome, ID e alíquota de impostos(ICMS/IPI) para cada ano.
 
-### 2**. Classe Product:**
+### **Classe Product:**
 
 - **Design Pattern:** **Builder** para criar objetos **`Produto`** com configurações flexíveis e mais complexas.
 - **Campos:**
@@ -41,33 +59,27 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
     - Calcular o valor do imposto com base nas aliquotas de cada estado fiscal e ano.
 - **Responsabilidades:** Criar objetos de produto configuráveis e calcular impostos com base nas informações recebidas.
 
-### 3**. Classe TaxSystem:**
-
-- **Design Pattern: Facade**, interface unificada, o sistema fica mais centralizado e fácil de usar.
-- **Responsabilidades:** Responsável por gerenciar a interação entre as classes, por exemplo: vai chamar primeiro a classe de Estado Fiscal para monta-la, após isso deve chamar a classe de produto.
-- **Funcionalidades**:
-    - Inicializar o sistema de estados fiscais com instâncias dos estados.
-    - Coordenar a criação, modificação e remoção de estados, anos e produtos.
-    - Garantir que as aliquotas apropriadas sejam usadas no cálculo de impostos dos produtos.
-
 ## Fluxo:
 
 - Deve ser inicializada a classe de TaxSystem
-    - esta classe sera responsavel por gerenciar as outras classes.
-    - uma ideia é: na classe TaxSystem, adicionar um cadastro para o usuário adicionar as infos de estado fiscal, ano e produto(verificar se é possível fazer isso neste design pattern)
+    - esta classe será responsável por gerenciar as outras classes.
+    - uma ideia é(verificar se é possível fazer isso neste design pattern):
+        - Na classe TaxSystem, adicionar um cadastro para o usuário poder adicionar as infos do produto que devera ser calculado e vai ser possível alterar a de estado fiscais e anos.
+        - Uma API ligada a um BD com uma tabela para estados fiscais e dentro de cada estado fiscal também precisamos ter os anos com alíquotas de impostos para cada estado fiscal naquele determinado ano.
 - Deve ser inicializada a classe de estado fiscal.
-    - Ela vai retornar as aliquotas de impostos(ICMS/IPI) referente a um determinado estado fiscal em um determinado ano.
+    - Ela vai retornar as alíquotas de impostos(ICMS/IPI) referente a um determinado estado fiscal em um determinado ano.
 - Deve ser inicializada a classe de produto
     - Onde devera ser calculado o valor do produto com base nas aliquotas de ICMS e/ou IPI retornadas da classe de estado fiscal.
 
 ## Legenda:
 
-**Estado fiscal**: Isso significa que o sistema permite indicar em qual estado(UF) uma venda está ocorrendo
+**Estado fiscal**: Isso significa que o sistema permite indicar em qual estado(UF) uma venda está ocorrendo.
 
 **Classe Abstrata**:  é uma classe que não pode ser instanciada diretamente. Ela serve como um modelo para outras classes derivadas (subclasses) que estendem seu comportamento
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
 
 ## Diagrama(Em desenvolvimento)
+- Consultar Diagrama no link do Notion, no topo da página
 
 [Por que usei cada design pattern](https://www.notion.so/Por-que-usei-cada-design-pattern-d3dc4c940428417880dbdaeb723030a3?pvs=21)
