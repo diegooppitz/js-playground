@@ -1,7 +1,6 @@
 [Pagina no Notion com Docs e Diagrama](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 
 # Tax System Docs
-
 ## Problema a ser resolvido pelo sistema:
 
 É necessário um sistema o qual deverá possibilitar o cadastro de diferente produtos, em diferentes estados fiscais e anos, as alíquotas de impostos para cada produto, devera mudar conforme o seu valor, seu estado fiscal e seu ano.
@@ -27,7 +26,7 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
     - Coordenar a criação, modificação e remoção de estados, anos e produtos.
     - Garantir que as alíquotas apropriadas sejam usadas no cálculo de impostos dos produtos.
 
-### **Classe TaxState**
+### **Classe TaxStates:**
 
 - **Design Pattern:**  Padrão **Singleton** para garantir que exista apenas uma instância da classe representando todos os estados fiscais.
 - **Campos:**
@@ -42,7 +41,7 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
     - Adicionar, editar e remover estados fiscais.
     - Adicionar, editar e remover anos que estão dentro de um determinado estado fiscal.
     - Retornar as alíquotas de ICMS e/ou IPI a partir da combinação de estado fiscal e ano que um produto em específico vai precisar.
-    - A classe terá um método que retornará as alíquotas do produto, o qual poderá durante a execução do sistema ser chamado pela classe Product, como a Instância desta classe é única, a classe Product utilizara a instância que estará na classe TaxSystem, a qual naturalmente deve gerenciar o sistema, incluindo as instancias.
+    - A classe terá um método que retornará as alíquotas de impost do produto, o qual poderá durante a execução do sistema ser chamado pela classe Product, como a Instância desta classe é única, a classe Product utilizara a instância que estará na classe TaxSystem, a qual naturalmente deve gerenciar o sistema, incluindo as instancias.
 - **Responsabilidades:** Gerenciar e fornecer informações sobre estados fiscais como nome, ID e alíquota de impostos(ICMS/IPI) para cada ano.
 
 ### **Classe Product:**
@@ -79,7 +78,6 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
 
-## Diagrama(Em desenvolvimento)
-- Consultar Diagrama no link do Notion, no topo da página
-
 [Por que usei cada design pattern](https://www.notion.so/Por-que-usei-cada-design-pattern-d3dc4c940428417880dbdaeb723030a3?pvs=21)
+
+[UML](https://www.notion.so/UML-ddaa94d1ee4442fe92b616b37a6c6620?pvs=4) 
