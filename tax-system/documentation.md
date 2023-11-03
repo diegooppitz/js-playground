@@ -1,4 +1,4 @@
-[Pagina no Notion com Docs e Diagrama](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
+[Pagina no Notion com Docs e Diagrama completo](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 
 # Tax System Docs
 ## Problema a ser resolvido pelo sistema:
@@ -59,7 +59,6 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
 - **Responsabilidades:** Criar objetos de produto configuráveis e calcular impostos com base nas informações recebidas.
 
 ## Fluxo:
-
 - Deve ser inicializada a classe de TaxSystem
     - esta classe será responsável por gerenciar as outras classes.
     - uma ideia é(verificar se é possível fazer isso neste design pattern):
@@ -70,6 +69,10 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
 - Deve ser inicializada a classe de produto
     - Onde devera ser calculado o valor do produto com base nas aliquotas de ICMS e/ou IPI retornadas da classe de estado fiscal.
 
+## Diagrama(acessando pelo Notion está melhor)
+<img width="1414" alt="Screenshot 2023-11-03 at 11 28 19 AM" src="https://github.com/diegooppitz/javascript-codes-playground/assets/25592813/159a71ae-596e-4c66-a839-06b29563fa38">
+
+
 ## Legenda:
 
 **Estado fiscal**: Isso significa que o sistema permite indicar em qual estado(UF) uma venda está ocorrendo.
@@ -77,6 +80,8 @@ Basicamente o sistema permite a criação e configuração flexível de produtos
 **Classe Abstrata**:  é uma classe que não pode ser instanciada diretamente. Ela serve como um modelo para outras classes derivadas (subclasses) que estendem seu comportamento
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
+
+[Pagina no Notion com Docs e Diagrama completo](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 
 [Por que usei cada design pattern](https://www.notion.so/Por-que-usei-cada-design-pattern-d3dc4c940428417880dbdaeb723030a3?pvs=21)
 
