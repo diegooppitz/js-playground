@@ -4,7 +4,7 @@
 
 ## Problema a ser resolvido pelo sistema:
 
-É necessário um sistema o qual deverá possibilitar o cadastro de diferente produtos, em diferentes estados fiscais e anos, as alíquotas de impostos para cada produto deverão mudar conforme o seu valor, seu estado fiscal e seu ano.
+É necessário um sistema o qual deverá receber informações de um produto e então calcular e retornar o valor total deste produto com os impostos sendo que as alíquotas de impostos para cada produto deverão mudar a partir de critérios como o valor do produto, o estado fiscal do produto e o ano do produto.
 
 ## Apresentação do sistema:
 
@@ -13,8 +13,9 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 É projetado para lidar com cálculos fiscais relacionados ao produto com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Utilizara as seguintes classes:
 
 1. **TaxSystem:** Está é a classe de controle, coordena a interação entre as classes do sistema, Inicializando o app, recebendo um produto, calculando o valor dos impostos deste determinado produto e retornando o valor total com impostos.
-2. **TaxState:** Esta classe permite acessar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Dentro dela haverá métodos para anos.
-3. **Product:** Esta classe permite criar um objeto de produto personalizado.
+2. **TaxStates:** Esta classe permite acessar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Dentro dela haverá métodos para anos.
+    1. Subclasse de TaxState: deve ter métodos para cada ano e também retornar as alíquotas de um produto referente aquele estado fiscal num determinado ano.
+3. **Product:** Esta classe permite criar um objeto de produto personalizado e posteriormente retornar o produto com os impostos calculados.
 
 ### **Classe TaxSystem:**
 
@@ -31,68 +32,64 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 
 ### **Classe TaxStates:**
 
-- **Design Pattern:**  Padrão **Singleton** para garantir que exista apenas uma instância da classe representando todos os estados fiscais. (CONFERIR ESTE PATTERN, talvez usar o factory method, tendo as subclasses como concrete classes)
-- Tipo: Classe Abstrata.
+- **Design Pattern:**  Uso do padrão ****************************Factory Method,****************************  acredito que esta classe precisa utilizar este pattern pois precisamos ter diferentes classes de ano aqui pois vai ser necessário ter uma classe concrete para cada estado fiscal e dentro de cada classe de estado fiscal será necessário seus respectivos anos, sendo cada ano um método.
+- Tipo: Interface
 - **Campos:**
-    - (REVER os campos)
+    - Produto
     - Nome
-    - ID
-    - Ano
+    - Id
 - Responsabilidade e f**uncionalidades:**
-    - Deve ser uma classe Abstrata a qual vai servir como base e ser extendida pelas subclasses de estados fiscais.
-    - Acionar a subclasse do estado fiscal para o produto.
-    - esta classe precisa ter subclasses para estados fiscais e será necessário ter uma classe para cada estado fiscal.
-    - (REVER as responsabilidades que estão daqui pra frente)
-    - Retornar as alíquotas de ICMS e/ou IPI a partir da combinação de estado fiscal e ano que um produto em específico vai precisar.
-    - A classe terá um método que retornará as alíquotas de impost do produto, o qual poderá durante a execução do sistema ser chamado pela classe Product, como a Instância desta classe é única, a classe Product utilizara a instância que estará na classe TaxSystem, a qual naturalmente deve gerenciar o sistema, incluindo as instancias.
+    - Vai servir como base e ser extendida pelas subclasses de estados fiscais.
+    - Receberá o produto, com informações de ano e estado fiscal
+    - Quando necessário, deve acionar a subclasse do estado fiscal referente ao produto.
+    - Será necessário ter uma subclasse para cada estado fiscal.
+    - Será responsável por montar os estados fiscais do projeto.
+    - Acionando a sub classe de estado fiscal, deverá retornar as alíquotas de ICMS e/ou IPI a partir da combinação de estado fiscal e ano do produto.
 
-### Sub classe Estado fiscal
+### Classe TaxStateConcrete:
 
-- **Design Pattern:**  ?? (talvez concrete classes da classe TaxState)
+- **Design Pattern:**  concreteClass de TaxState.
 - Tipo: Classe
 - **Campos:**
-    - (REVER os campos)
+    - Produto
     - Nome
     - ID
-    - Ano
-    - **objeto de anos:**
-        - aliquota do imposto ICMS →  para cada ano
-        - aliquota do imposto IPI → para cada ano
-        - id → para cada ano
 - Responsabilidade e f**uncionalidades:**
-    - Será uma classe de um estado fiscal.
-    - Terá métodos para cada ano deste estado fiscal que deverão retornar as alíquotas de ICMS e/ou IPI a partir do ano do produto.
+    - Será uma subclasse de estado fiscal.
+    - Receberá o produto, com informações de ano e estado fiscal
+    - Terá métodos para cada ano deste estado fiscal que vão retornar as alíquotas de ICMS e/ou IPI a partir do ano do produto.
 
 ### **Classe Product:**
 
-- (REVER as responsabilidades, funcionalidades e os campos da classes)
-- **Design Pattern:** **Builder** para criar objetos **`Produto`** com configurações flexíveis e mais complexas.
+- **Design Pattern:** **Builder** para criar objetos **`Produto`** com configurações flexíveis e mais complexas(Validar se este continua sendo melhor pattern).
 - **Campos:**
-    - Nome
-    - Estado Fiscal
-    - Valor do Produto (sem impostos)
     - ID do Produto.
-- **Funcionalidades:**
-    - Adicionar ou remover produtos.
-    - Modificar os detalhes de um produto.
-    - Calcular o valor do imposto com base nas aliquotas de cada estado fiscal e ano.
-- **Responsabilidades:** Criar objetos de produto configuráveis e calcular impostos com base nas informações recebidas.
+    - Nome
+    - Ano
+    - Estado Fiscal
+    - Valor do Produto(sem impostos)
+    - Valor total do produto
+- Responsabilidades e **Funcionalidades:**
+    - Criar objeto do produto para calcular impostos
+    - Posteriormente o mesmo objeto pode ser utilizado para retorna o produto com os impostos calculados
 
 ## Fluxo:
 
-- (REVER o fluxo)
+- (DUVIDA, qual deve ser inicializada primeiro, a de product ou de TaxState? → DEFINIR FLUXO PRODUTO)
 - Deve ser inicializada a classe de TaxSystem
     - esta classe será responsável por gerenciar as outras classes.
-    - uma ideia é(verificar se é possível fazer isso neste design pattern):
-        - Na classe TaxSystem, através da classe TaxStates ter um cadastro para o usuário poder adicionar as infos do produto que devera ser calculado e vai ser possível alterar as infos de estados fiscais e anos.
-        - Uma API ligada a um BD com uma tabela para estados fiscais e dentro de cada estado fiscal também precisamos ter os anos com alíquotas de impostos para cada estado fiscal naquele determinado ano.
-- Deve ser inicializada a classe de estado fiscal(TaxStates).
+    - ela irá chamar a classe de TaxStates ou Product(DEFINIR ISTO → DEFINIR FLUXO PRODUTO)
+- Quando inicializada a classe de estados fiscais(TaxStates) e sua respectiva subclasse:
     - Ela vai retornar as alíquotas de impostos(ICMS/IPI) referente a um determinado estado fiscal em um determinado ano.
-    - Nela que vai estar o método que se comunica com a API para fazer o crud de estado fiscal, podendo adicionar, modificar e remover estados fiscais e os respectivos anos para cada estado fiscal.
-- Deve ser inicializada a classe de produto
-    - Onde deverá ser calculado o valor do produto com base nas aliquotas de ICMS e/ou IPI retornadas da classe de estado fiscal.
+- Quando inicializada a classe de produto:
+    - (DEFINIR FLUXO PRODUTO)
+        - Deverá ser montado o objeto de produto com o valor sem impostos e posteriormente o com valor total
+        - Ou ser montado o objeto de produto apenas com valor sem impostos
+        - Ou ser montado o objeto de produto apenas com valor total
 
 ## Legenda:
+
+(adicionar outros itens)
 
 **Estado fiscal**: Isso significa que o sistema permite indicar em qual estado(UF) uma venda está ocorrendo.
 
