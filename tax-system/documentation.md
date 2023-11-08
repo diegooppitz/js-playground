@@ -4,17 +4,19 @@
 
 ## Problema a ser resolvido pelo sistema:
 
-É necessário um sistema o qual deverá receber informações de um produto e então calcular e retornar o valor total deste produto com os impostos sendo que as alíquotas de impostos para cada produto deverão mudar a partir de critérios como o valor do produto, o estado fiscal do produto e o ano do produto.
+É necessário um sistema o qual deverá receber informações de um produto e então calcular e retornar o valor total deste produto com os impostos sendo que as alíquotas de impostos para cada produto deverão mudar a partir de critérios como o valor do produto, o estado fiscal do produto e o ano do produto. 
+
+É necessário também que todos os dados de estado fiscais e anos já devem estar dentro do sistema.
 
 ## Apresentação do sistema:
 
-Basicamente o sistema recebe informações de um produto, monta seu objeto e com base em diferentes critérios realiza o cálculo fiscal do valor deste produto retornando assim o valor total do produto com impostos.
+Basicamente o sistema recebe informações de um produto, monta seu objeto e com base em diferentes critérios realiza o cálculo fiscal do valor deste produto retornando assim o produto com o seu valor total(com impostos).
 
 É projetado para lidar com cálculos fiscais relacionados ao produto com base em critérios como o estado fiscal, o ano de venda e o valor do produto. Utilizara as seguintes classes:
 
 1. **TaxSystem:** Está é a classe de controle, coordena a interação entre as classes do sistema, Inicializando o app, recebendo um produto, calculando o valor dos impostos deste determinado produto e retornando o valor total com impostos.
-2. **TaxStates:** Esta classe permite acessar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. Dentro dela haverá métodos para anos.
-    1. Subclasse de TaxState: deve ter métodos para cada ano e também retornar as alíquotas de um produto referente aquele estado fiscal num determinado ano.
+2. **TaxStates:** Esta classe permite acessar informações sobre estados fiscais, incluindo nome, ID e taxas de ICMS e IPI. 
+    1. Subclasse de TaxState: Haverá uma subclasse de TaxStates para cada estado fiscal e dentro de cada uma deve ter métodos para cada ano e também retornar as alíquotas de impostos para um produto referente aquele estado fiscal num determinado ano.
 3. **Product:** Esta classe permite criar um objeto de produto personalizado e posteriormente retornar o produto com os impostos calculados.
 
 ### **Classe TaxSystem:**
@@ -24,44 +26,44 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
     - Inicializar e coordenar o sistema.
     - Receber informações do produto
     - Gerenciar a interação entre as classes
-    - Acionar a classe de Produto para montar o objeto de produto
+    - Acionar a classe **Product** para montar o objeto de produto.
     - Garantir que as os estados fiscais apropriados sejam utilizados no cálculo de impostos dos produtos.
-    - Acionar a classe de taxState para puxar as alíquotas de impostos de um produto.
-    - A própria classe TaxSystem deve calcular o valor total do produto(com impostos)
-    - Sua última responsabilidade: retornar o valor total do produto(com impostos).
+    - Acionar a classe de taxState para obter as alíquotas de impostos de um produto.
+    - Calcular e retornar o valor total do produto (com impostos).
 
-### **Classe TaxStates:**
+## Classe CalcProductValue
 
-- **Design Pattern:**  Uso do padrão ****************************Factory Method,****************************  acredito que esta classe precisa utilizar este pattern pois precisamos ter diferentes classes de ano aqui pois vai ser necessário ter uma classe concrete para cada estado fiscal e dentro de cada classe de estado fiscal será necessário seus respectivos anos, sendo cada ano um método.
-- Tipo: Interface
+(TO DO)
+
+### Interface **TaxStates:**
+
+- **Design Pattern:**  Uso do padrão ****************************Factory Method,****************************  acredito que esta classe precisa utilizar este pattern pois vai ser necessário ter uma subclasse para cada estado fiscal e dentro de cada classe de estado fiscal será necessário seus respectivos anos em métodos ou em mais subclasses, sendo cada ano um método ou subclasse.
 - **Campos:**
-    - Produto
-    - Nome
+    - Product
+    - Name
     - Id
 - Responsabilidade e f**uncionalidades:**
-    - Vai servir como base e ser extendida pelas subclasses de estados fiscais.
-    - Receberá o produto, com informações de ano e estado fiscal
-    - Quando necessário, deve acionar a subclasse do estado fiscal referente ao produto.
-    - Será necessário ter uma subclasse para cada estado fiscal.
-    - Será responsável por montar os estados fiscais do projeto.
-    - Acionando a sub classe de estado fiscal, deverá retornar as alíquotas de ICMS e/ou IPI a partir da combinação de estado fiscal e ano do produto.
+    - Servir como base e ser estendida pelas subclasses de estados fiscais.
+    - Receber informações do produto, incluindo ano e estado fiscal.
+    - Quando necessário, acionar a subclasse do estado fiscal apropriado para o produto.
+    - Montar os estados fiscais do projeto.
+    - Acionar a subclasse de estado fiscal para retornar as alíquotas de ICMS e/ou IPI com base na combinação de estado fiscal e ano do produto.
 
 ### Classe TaxStateConcrete:
 
 - **Design Pattern:**  concreteClass de TaxState.
-- Tipo: Classe
 - **Campos:**
-    - Produto
-    - Nome
+    - Product
+    - Name
     - ID
 - Responsabilidade e f**uncionalidades:**
     - Será uma subclasse de estado fiscal.
-    - Receberá o produto, com informações de ano e estado fiscal
-    - Terá métodos para cada ano deste estado fiscal que vão retornar as alíquotas de ICMS e/ou IPI a partir do ano do produto.
+    - Receber informações do produto, incluindo ano e estado fiscal.
+    - Ter métodos para cada ano deste estado fiscal que retornarão as alíquotas de ICMS e/ou IPI com base no ano do produto.
 
 ### **Classe Product:**
 
-- **Design Pattern:** **Builder** para criar objetos **`Produto`** com configurações flexíveis e mais complexas(Validar se este continua sendo melhor pattern).
+- **Design Pattern:** Nenhum padrão específico necessário no momento**.**
 - **Campos:**
     - ID do Produto.
     - Nome
@@ -75,30 +77,26 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 
 ## Fluxo:
 
-- (DUVIDA, qual deve ser inicializada primeiro, a de product ou de TaxState? → DEFINIR FLUXO PRODUTO)
-- Deve ser inicializada a classe de TaxSystem
-    - esta classe será responsável por gerenciar as outras classes.
-    - ela irá chamar a classe de TaxStates ou Product(DEFINIR ISTO → DEFINIR FLUXO PRODUTO)
-- Quando inicializada a classe de estados fiscais(TaxStates) e sua respectiva subclasse:
-    - Ela vai retornar as alíquotas de impostos(ICMS/IPI) referente a um determinado estado fiscal em um determinado ano.
-- Quando inicializada a classe de produto:
-    - (DEFINIR FLUXO PRODUTO)
-        - Deverá ser montado o objeto de produto com o valor sem impostos e posteriormente o com valor total
-        - Ou ser montado o objeto de produto apenas com valor sem impostos
-        - Ou ser montado o objeto de produto apenas com valor total
+1. A classe **`TaxSystem` deve ser inicializada**.
+    - Ela será responsável por coordenar as outras classes.
+    - Chame a classe **`Product`** para criar o objeto do produto e fornecer informações, como o ano, o estado fiscal e o valor sem impostos.
+2. IA classe `Product` **deve ser inicializada**.
+    - A classe **`Product`** criará um objeto de produto com as informações fornecidas, incluindo o ano e o estado fiscal.
+3. A classe **`TaxSystem`** utilizará o objeto do produto e chamará a classe **`TaxStates`** para obter as alíquotas de impostos apropriadas com base nas informações do produto (ano e estado fiscal).
+4. A classe **`TaxSystem`** calculará o valor total do produto com impostos usando as alíquotas obtidas do passo 4 e, em seguida, atualizará o objeto da classe **`Product`** com o valor total calculado.
+5. A classe **`TaxSystem`** retornará o objeto da classe **`Product`** atualizado, concluindo o cálculo.
 
 ## Legenda:
 
-(adicionar outros itens)
-
 **Estado fiscal**: Isso significa que o sistema permite indicar em qual estado(UF) uma venda está ocorrendo.
 
-**Classe Abstrata**:  é uma classe que não pode ser instanciada diretamente. Ela serve como um modelo para outras classes derivadas (subclasses) que estendem seu comportamento
+**Interface**: Uma interface é semelhante a uma classe abstrata, mas contém apenas declarações de métodos, sem implementações. As classes que implementam uma interface devem fornecer implementações para todos os métodos declarados na interface.
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
 
 ## Diagrama(Em desenvolvimento)
 
+- (Necessário indentar e revisar o diagrama)
 
 [Pagina no Notion com Docs e Diagrama completo](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 
