@@ -31,7 +31,7 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
     - Acionar a classe de taxState para obter as alíquotas de impostos de um produto.
     - Calcular e retornar o valor total do produto (com impostos).
 
-## Classe CalcProductValue
+### Classe CalcProductValue
 
 (TO DO)
 
@@ -79,12 +79,13 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 
 1. A classe **`TaxSystem` deve ser inicializada**.
     - Ela será responsável por coordenar as outras classes.
-    - Chame a classe **`Product`** para criar o objeto do produto e fornecer informações, como o ano, o estado fiscal e o valor sem impostos.
+    - Chama a classe **`Product`** para criar o objeto do produto e fornecer informações, como o ano, o estado fiscal e o valor sem impostos.
 2. IA classe `Product` **deve ser inicializada**.
     - A classe **`Product`** criará um objeto de produto com as informações fornecidas, incluindo o ano e o estado fiscal.
-3. A classe **`TaxSystem`** utilizará o objeto do produto e chamará a classe **`TaxStates`** para obter as alíquotas de impostos apropriadas com base nas informações do produto (ano e estado fiscal).
-4. A classe **`TaxSystem`** calculará o valor total do produto com impostos usando as alíquotas obtidas do passo 4 e, em seguida, atualizará o objeto da classe **`Product`** com o valor total calculado.
-5. A classe **`TaxSystem`** retornará o objeto da classe **`Product`** atualizado, concluindo o cálculo.
+3. A classe **`TaxSystem`** utilizará o objeto do produto e chamará a classe `TaxStates`.
+4. A classe**`TaxStates`** então vai retornar para a classe `TaxSystem` as alíquotas de impostos apropriadas com base nas informações do produto (ano e estado fiscal).
+5. A classe **`TaxSystem` acionara a classe** `CalcProductValue` para calculará o valor total do produto com impostos usando as alíquotas obtidas do passo 4 e em seguida, atualizará o objeto da classe **`Product`** com o valor total calculado.
+6. A classe **`TaxSystem`** deve retornar o objeto da classe **`Product`** atualizado com o novo valor total(compostos), concluindo o trabalho da aplicação.
 
 ## Legenda:
 
@@ -97,7 +98,9 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 ## Diagrama(Em desenvolvimento)
 
 - (Necessário indentar e revisar o diagrama)
+  
 
+### Links
 [Pagina no Notion com Docs e Diagrama completo](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
 
 [Por que usei cada design pattern](https://www.notion.so/Por-que-usei-cada-design-pattern-d3dc4c940428417880dbdaeb723030a3?pvs=21)
