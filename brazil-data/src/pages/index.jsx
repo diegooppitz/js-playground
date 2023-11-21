@@ -13,14 +13,12 @@ export default function Home() {
       if (!data) return;
       setOptions(data);
       setOptionSelected(data[0].id);
-
     })
   }
 
   async function fetchFilters() {
     getOptionsFilters(optionSelected).then(({ data }) => {
       if (!data) return;
-      console.log(data[0])
       setPeriodFilters(data)
       setFilterOption(data[0].id)
     })

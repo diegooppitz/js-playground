@@ -37,16 +37,16 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
       }
     });
   
-    if(!pageDataToLoad || textAreas?.length > pageDataToLoad?.length) savePageData();
+    if(!pageDataToLoad || textAreas?.length > pageDataToLoad?.length) updatePageData();
   };
 
-  const savePageData = async () => {
+  const updatePageData = async () => {
     try {
       const dataToSave = textAreas ? { pageId, textAreas } : null;
       if (!dataToSave) return;
 
       const response = await fetch('/api/manage-pages-data', {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
