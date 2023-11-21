@@ -33,7 +33,12 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 
 ### Classe CalcProductValue
 
-(TO DO)
+- **Design Pattern:** -
+- **Campos:**
+    - Product
+- Responsabilidade e f**uncionalidades:**
+    - Receber um produto, com as alíquotas de imposto e também o valor total dele sem impostos
+    - Retornar o produto com seu valor total com impostos
 
 ### Interface **TaxStates:**
 
@@ -96,8 +101,10 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
 
 ## Diagrama(Em desenvolvimento)
-
 - (Necessário indentar e revisar o diagrama)
+[Link para o diagrama](https://documents.lucid.app/documents/6b89f7fc-a249-4415-ac78-a4ac1ad282a7/pages/HWEp-vi-RSFO?a=3551&x=-20&y=-59&w=2620&h=1274&store=1&accept=image%2F*&auth=LCA%20dd78e80d820e038f310663e4584bb7ba4f08b2dee24debee009316601a15df5b-ts%3D1699881425)
+
+
   
 
 ### Links
