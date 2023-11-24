@@ -7,9 +7,9 @@ export class TaxStates {
     #product: ProductData | null = null
 
     #stateFactoryMap: { [key: string]: (product: ProductData) => number | string } = {
-        'California': this.#createCalifornia,
-        // 'Ohio': this.#createOhio,
-        // 'NewYork': this.#createNewYork
+        'california': this.#createCalifornia,
+        // 'ohio': this.#createOhio,
+        // 'new-york': this.#createNewYork
     };
 
     getTaxRates(product: ProductData) {

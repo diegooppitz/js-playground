@@ -1,7 +1,6 @@
-import { ProductData } from "../../types/product";
+import { ProductData } from "./product";
 
 export interface IConcreteTaxState {
     product: ProductData;
-
     getTaxRates(): number;
 }

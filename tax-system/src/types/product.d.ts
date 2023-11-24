@@ -1,12 +1,7 @@
 export type ProductData = {
+    productId: string,
     year: string;
     fiscalState: string;
     baseValue: number;
-    totalValue: number;
-};
-
-export type NewProductData = {
-    year: string;
-    fiscalState: string;
-    baseValue: number;
+    totalValue?: number;
 };

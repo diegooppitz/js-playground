@@ -1,14 +1,15 @@
-import { ProductData, NewProductData } from "../types/product"; 
+import { ProductData } from "../types/product"; 
 
 export class Product {
     productData: ProductData = {
+        productId: '',
         year: '',
         fiscalState: '',
         baseValue: 0,
         totalValue: 0
     }
 
-    createProduct(newProductData: NewProductData) {
+    createProduct(newProductData: ProductData) {
         this.#setProductData(newProductData);
     }
 
@@ -20,9 +21,10 @@ export class Product {
         return this.#returnProduct();
     }
 
-    #setProductData({ year, fiscalState, baseValue }: NewProductData) {
+    #setProductData({ productId, year, fiscalState, baseValue }: ProductData) {
         if(year && fiscalState && baseValue) {
             this.productData = {
+                productId,
                 year,
                 fiscalState,
                 baseValue,
