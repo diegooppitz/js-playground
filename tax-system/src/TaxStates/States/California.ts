@@ -1,38 +1,34 @@
 import { ProductData } from "../../types/product";
-import { IConcreteTaxState } from "../../types/taxStates";
 
-export class California implements IConcreteTaxState {
+export class California {
     product: ProductData;
-
-    #SALES_TAX_RATES = {
-        2005: 11,
-        2010: 13,
-        2015: 10,
-        2017: 15,
-    };
-
-    #EXCISE_TAX_RATES = {
-        2015: 5,
-        2018: 6,
-        2020: 8,
-        2023: 0
-    };
+    taxRates: number | string;
 
     constructor(product: ProductData) {
         this.product = product;
+        this.taxRates = 'Undefined year'
+        this.calcTaxRateForYear();
     }
 
-    getTaxRates(): number {
-        const salesTax = this.#getTaxRateForYear(this.#SALES_TAX_RATES);
-        const exciseTax = this.#getTaxRateForYear(this.#EXCISE_TAX_RATES);
-        return salesTax + exciseTax;
+    calcTaxRateForYear() {
+        const year = parseInt(this.product.year);
+        const methodName = `year${year}`;
+
+        const possibleMethod = this[methodName as keyof California];
+        if (typeof possibleMethod === 'function') {
+            possibleMethod.call(this);
+        }
     }
 
-    #getTaxRateForYear(taxRates: { [key: number]: number }): number {
-        const year = this.product?.year ? parseInt(this.product.year) : 0;
+    year2015() {
+       this.taxRates = 20;
+    }
 
-        const startYears = Object.keys(taxRates).map(Number).sort((a, b) => b - a);
-        const applicableStartYear = startYears.find(startYear => year >= startYear);
-        return applicableStartYear !== undefined ? taxRates[applicableStartYear] : 0;
+    year2016() {
+        this.taxRates = 30;
+    }
+
+    year2017() {
+        this.taxRates = 40;
     }
 }
