@@ -1,5 +1,8 @@
 import { ProductData } from "../../types/product";
 
+type TaxRateMethod = () => void;
+type TaxRateMethodName = `year${number}`;
+
 export class California {
     product: ProductData;
     taxRates: number | string;
@@ -12,23 +15,21 @@ export class California {
 
     calcTaxRateForYear() {
         const year = parseInt(this.product.year);
-        const methodName = `year${year}`;
+        const methodName: TaxRateMethodName = `year${year}` as TaxRateMethodName;
 
-        const possibleMethod = this[methodName as keyof California];
-        if (typeof possibleMethod === 'function') {
-            possibleMethod.call(this);
-        }
+        const possibleMethod = this[methodName as keyof this];
+        if (typeof possibleMethod === 'function') (possibleMethod as TaxRateMethod).call(this);
     }
 
-    year2015() {
-       this.taxRates = 20;
+    private year2015() {
+        this.taxRates = 20;
     }
 
-    year2016() {
+    private year2016() {
         this.taxRates = 30;
     }
 
-    year2017() {
+    private year2017() {
         this.taxRates = 40;
     }
 }

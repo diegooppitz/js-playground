@@ -14,9 +14,8 @@ export class TaxSystem {
         console.log("new product data", newProductData);
 
         const taxStates = new TaxStates();
-        taxStates.getTaxRates(newProductData)
-        // const taxRateCalifornia = taxStates.getTaxRates(newProductData);
-        // console.log("Tax Rates California", taxRateCalifornia);
+        const taxRateCalifornia = taxStates.getTaxRates(newProductData);
+        console.log("Tax Rates California", taxRateCalifornia);
 
     }
 }
