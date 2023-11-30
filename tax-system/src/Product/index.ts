@@ -1,4 +1,4 @@
-import { ProductData } from "../types/product"; 
+import { ProductData } from "@/types"; 
 
 export class Product {
     productData: ProductData = {

@@ -1,15 +1,13 @@
-import { ProductData } from "../../types/product";
+import { IConcreteTaxRates, IConcreteTaxState } from "@/interfaces";
+import { ProductData, TaxRateMethod, TaxRateMethodName } from "@/types";
 
-type TaxRateMethod = () => void;
-type TaxRateMethodName = `year${number}`;
-
-export class California {
+export class California implements IConcreteTaxState {
     product: ProductData;
-    taxRates: number | string;
+    taxRates: IConcreteTaxRates;
 
-    constructor(product: ProductData) {
+    constructor(product: ProductData, federalTaxRate: number) {
         this.product = product;
-        this.taxRates = 'Undefined year'
+        this.taxRates = { sales: 0, excise: 0, federal: federalTaxRate, total: 0 };
         this.calcTaxRateForYear();
     }
 
@@ -21,15 +19,25 @@ export class California {
         if (typeof possibleMethod === 'function') (possibleMethod as TaxRateMethod).call(this);
     }
 
+    calculateTotalTax() {
+        this.taxRates.total = this.taxRates.sales + this.taxRates.excise + this.taxRates.federal;
+    }
+
     private year2015() {
-        this.taxRates = 20;
+        this.taxRates.sales = 5;
+        this.taxRates.excise = 15;
+        this.calculateTotalTax();
     }
 
     private year2016() {
-        this.taxRates = 30;
+        this.taxRates.sales = 6;
+        this.taxRates.excise = 10;
+        this.calculateTotalTax();
     }
 
     private year2017() {
-        this.taxRates = 40;
+        this.taxRates.sales = 8;
+        this.taxRates.excise = 11;
+        this.calculateTotalTax();
     }
 }

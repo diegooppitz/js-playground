@@ -1,12 +1,16 @@
-import { ProductData } from "../types/product";
+import { ProductData } from "@/types";
 import { California } from "./States/California";
-// import { NewYork } from "./States/NewYork";
-// import { Ohio } from "./States/Ohio";
+import { NewYork } from "./States/NewYork";
+import { Ohio } from "./States/Ohio";
 
+interface TaxRates {
+    sales: number;
+    excise: number;
+    federal: number;
+    total: number; 
+}
 export class TaxStates {
-    #product: ProductData | null = null;
-
-    #stateFactoryMap: { [key: string]: (product: ProductData) => number | string } = {
+    #stateFactoryMap: { [key: string]: (product: ProductData,) => TaxRates | string} = {
         'california': this.#createCalifornia,
         // 'ohio': this.#createOhio,
         // 'new-york': this.#createNewYork
@@ -19,7 +23,7 @@ export class TaxStates {
     }
 
     #createCalifornia(product: ProductData) {
-        const california = new California(product);
+        const california = new California(product, 5);
         return california?.taxRates ?? 'Undefined fiscal state or year';
     }
 

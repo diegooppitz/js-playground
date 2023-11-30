@@ -1,6 +1,6 @@
 import { Product } from "../Product";
 import { TaxStates } from "../TaxStates";
-import { ProductData } from "../types/product";
+import { ProductData } from "@/types";
 
 export class TaxSystem {
     product: ProductData | null = null
@@ -16,6 +16,5 @@ export class TaxSystem {
         const taxStates = new TaxStates();
         const taxRateCalifornia = taxStates.getTaxRates(newProductData);
         console.log("Tax Rates California", taxRateCalifornia);
-
     }
 }
