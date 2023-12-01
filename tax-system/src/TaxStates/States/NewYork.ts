@@ -23,6 +23,10 @@ export class NewYork implements IConcreteTaxState {
         this.taxRates.total = this.taxRates.sales + this.taxRates.excise + this.taxRates.federal;
     }
 
+    getTaxState() {
+        return this.taxRates.total ? this.taxRates : "Unregistred year";
+    }
+
     private year2015() {
         this.taxRates.sales = 5;
         this.taxRates.excise = 15;

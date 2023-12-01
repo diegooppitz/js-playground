@@ -3,41 +3,57 @@ import { ProductData, TaxRateMethod, TaxRateMethodName } from "@/types";
 
 export class California implements IConcreteTaxState {
     product: ProductData;
-    taxRates: IConcreteTaxRates;
+    salesTax
+    exciseTax
+    totalTaxRate
+    federalTax
+    taxRates
 
-    constructor(product: ProductData, federalTaxRate: number) {
+    constructor(product: ProductData, federalTaxRate: number) {    
+        this.salesTax = 0;
+        this.exciseTax = 0;
+        this.totalTaxRate = 0;
+        this.federalTax = 0;
         this.product = product;
-        this.taxRates = { sales: 0, excise: 0, federal: federalTaxRate, total: 0 };
-        this.calcTaxRateForYear();
+        this.taxRates = { salesTax: 0, exciseTax: 0, federalTax: federalTaxRate, totalTaxRate: 0 };
+        this.#calcTaxRateForYear();
     }
 
-    calcTaxRateForYear() {
+    #calcTaxRateForYear() {
         const year = parseInt(this.product.year);
         const methodName: TaxRateMethodName = `year${year}` as TaxRateMethodName;
 
         const possibleMethod = this[methodName as keyof this];
         if (typeof possibleMethod === 'function') (possibleMethod as TaxRateMethod).call(this);
+        else this.taxRates = "Unregistred year";
     }
 
-    calculateTotalTax() {
-        this.taxRates.total = this.taxRates.sales + this.taxRates.excise + this.taxRates.federal;
+    #calculateTotalTax() {
+        this.totalTaxRate = this.salesTax + this.exciseTax + this.federalTax;
+        this.taxRates = this.totalTaxRate ? this.taxRates : "Calculate year tax rates error";
     }
 
-    private year2015() {
-        this.taxRates.sales = 5;
-        this.taxRates.excise = 15;
-        this.calculateTotalTax();
+    private year2010() {
+        this.salesTax = 5;
+        this.exciseTax = 15;
+        this.#calculateTotalTax();
     }
 
-    private year2016() {
-        this.taxRates.sales = 6;
-        this.taxRates.excise = 10;
-        this.calculateTotalTax();
+    private year2011() {
+        this.salesTax = 5;
+        this.exciseTax = 15;
+        this.#calculateTotalTax();
+    }
+
+    private year2014() {
+        this.salesTax = 6;
+        this.exciseTax = 10;
+        this.#calculateTotalTax();
     }
 
     private year2017() {
-        this.taxRates.sales = 8;
-        this.taxRates.excise = 11;
-        this.calculateTotalTax();
+        this.salesTax = 8;
+        this.exciseTax = 11;
+        this.#calculateTotalTax();
     }
 }

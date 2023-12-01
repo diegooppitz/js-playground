@@ -1,15 +1,13 @@
 import { ProductData } from "@/types";
 
-export interface IConcreteTaxState {
+export interface IConcreteTaxState extends IConcreteTaxRates {
     product: ProductData;
-    taxRates: IConcreteTaxRates;
-    calcTaxRateForYear(): void;
-    calculateTotalTax(): void;
+    taxRates: IConcreteTaxRates | string;
 }
 
 export interface IConcreteTaxRates {
-    sales: number;
-    excise: number;
-    federal: number;
-    total: number; 
+    salesTax: number;
+    exciseTax: number;
+    totalTaxRate: number;
+    federalTax: number;
 }
