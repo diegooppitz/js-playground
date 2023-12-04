@@ -9,3 +9,7 @@ export type ProductData = {
 
 export type TaxRateMethod = () => void;
 export type TaxRateMethodName = `year${number}`;
+
+export type ErrorInfo = {
+    error: string;
+};

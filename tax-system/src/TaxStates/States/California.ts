@@ -1,13 +1,15 @@
 import { IConcreteTaxRates, IConcreteTaxState } from "@/interfaces";
-import { ProductData, TaxRateMethod, TaxRateMethodName } from "@/types";
+import { ProductData, TaxRateMethod, TaxRateMethodName, ErrorInfo } from "@/types";
+
 
 export class California implements IConcreteTaxState {
-    product: ProductData;
     salesTax
     exciseTax
     totalTaxRate
     federalTax
     taxRates
+    errorMsg: ErrorInfo | null
+    product: ProductData;
 
     constructor(product: ProductData, federalTaxRate: number) {    
         this.salesTax = 0;
@@ -16,7 +18,12 @@ export class California implements IConcreteTaxState {
         this.federalTax = 0;
         this.product = product;
         this.taxRates = { salesTax: 0, exciseTax: 0, federalTax: federalTaxRate, totalTaxRate: 0 };
+        this.errorMsg = null
         this.#calcTaxRateForYear();
+    }
+
+    getTaxRates(): ErrorInfo | IConcreteTaxRates {
+        return this.errorMsg ? this.errorMsg : this.taxRates;
     }
 
     #calcTaxRateForYear() {
@@ -24,13 +31,14 @@ export class California implements IConcreteTaxState {
         const methodName: TaxRateMethodName = `year${year}` as TaxRateMethodName;
 
         const possibleMethod = this[methodName as keyof this];
-        if (typeof possibleMethod === 'function') (possibleMethod as TaxRateMethod).call(this);
-        else this.taxRates = "Unregistred year";
+        // if (typeof possibleMethod === 'function') (possibleMethod as TaxRateMethod).call(this);
+        this.errorMsg = { error: "Unregistred year" };
+        // else this.errorMsg = { error: "Unregistred year" };
     }
 
     #calculateTotalTax() {
         this.totalTaxRate = this.salesTax + this.exciseTax + this.federalTax;
-        this.taxRates = this.totalTaxRate ? this.taxRates : "Calculate year tax rates error";
+        if (!this.totalTaxRate) this.errorMsg = { error: "Calculate year tax rates error"};
     }
 
     private year2010() {

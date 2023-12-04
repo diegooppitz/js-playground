@@ -18,17 +18,17 @@ export class TaxSystem {
         const newProductData = product.getProduct();
 
         const taxStates = new TaxStates(newProductData);
-        const taxRates = taxStates.taxRates
+        const taxRates = taxStates // atualizar este retorno
         console.log("Tax Rates", taxRates);
 
-        // product 2
-        const product2 = new Product();
-        product2.createProduct(ohioValidYear)
-        product2.updateTotalValue(1200)
-        const newProductData2 = product2.getProduct();
+        // // product 2
+        // const product2 = new Product();
+        // product2.createProduct(ohioValidYear)
+        // product2.updateTotalValue(1200)
+        // const newProductData2 = product2.getProduct();
 
-        const taxStates2 = new TaxStates(newProductData2);
-        const taxRates2 = taxStates2.taxRates
-        console.log("Tax Rates 2", taxRates2);
+        // const taxStates2 = new TaxStates(newProductData2);
+        // const taxRates2 = taxStates2.taxRates
+        // console.log("Tax Rates 2", taxRates2);
     }
 }
