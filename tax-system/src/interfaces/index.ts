@@ -1,7 +1,10 @@
 import { ProductData } from "@/types";
 
-export interface IConcreteTaxState extends IConcreteTaxRates {
+export interface IConcreteTaxState {
     product: ProductData;
+    taxRates: IConcreteTaxRates;
+    errorMsg: string;
+    getTaxRates(): string | IConcreteTaxRates;
 }
 
 export interface IConcreteTaxRates {

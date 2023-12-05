@@ -6,10 +6,10 @@ export type ProductData = {
     totalValue?: number;
 };
 
+type TaxInfo = {
+    taxRates?: IConcreteTaxRates;
+    error?: string;
+};
 
 export type TaxRateMethod = () => void;
 export type TaxRateMethodName = `year${number}`;
-
-export type ErrorInfo = {
-    error: string;
-};
