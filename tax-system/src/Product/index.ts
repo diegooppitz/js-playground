@@ -9,8 +9,8 @@ export class Product {
         totalValue: 0
     }
 
-    createProduct(newProductData: ProductData) {
-        this.#setProductData(newProductData);
+    constructor(newProductData: ProductData, newBaseValue: number) {
+        this.#createProduct(newProductData, newBaseValue)
     }
 
     updateTotalValue(totalValue: number){
@@ -19,6 +19,11 @@ export class Product {
 
     getProduct() {
         return this.#returnProduct();
+    }
+
+    #createProduct(newProductData: ProductData, newBaseValue: number) {
+        this.#setProductData(newProductData);
+        this.#setNewBaseValue(newBaseValue)
     }
 
     #setProductData({ productId, year, fiscalState, baseValue }: ProductData) {
@@ -31,6 +36,10 @@ export class Product {
                 totalValue: 0
             };
         }
+    }
+
+    #setNewBaseValue(newBaseValue: number) {
+        if(newBaseValue) this.productData.baseValue = newBaseValue;
     }
 
     #setNewTotalValue(totalValue: number) {
