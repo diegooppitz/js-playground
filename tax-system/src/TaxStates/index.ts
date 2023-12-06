@@ -2,7 +2,6 @@ import { ProductData, TaxInfo } from "@/types";
 import { California } from "./States/California";
 import { NewYork } from "./States/NewYork";
 import { Ohio } from "./States/Ohio";
-import { IConcreteTaxRates } from "@/interfaces";
 
 export class TaxStates {
     taxInfo: TaxInfo;

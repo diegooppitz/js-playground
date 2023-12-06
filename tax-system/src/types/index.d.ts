@@ -1,3 +1,5 @@
+import { IConcreteTaxRates } from "../interfaces";
+
 export type ProductData = {
     productId: string,
     year: string;
