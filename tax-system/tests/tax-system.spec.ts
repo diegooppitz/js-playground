@@ -1,7 +1,13 @@
+import { TaxSystem } from '../src/TaxSystem';
 import { generateProductData } from '../src/common';
 import { californiaValidYear, ohioInvalidYear, ohioValidYear, invalidState, baseValue } from "../src/mock";
 
-describe('Renders of TaxStates', () => {
+describe('Renders of TaxSystem', () => {
+  it('should initialize system without errors', () => {
+    const taxSystem = new TaxSystem();
+    expect(() => taxSystem.initSystem()).not.toThrow();
+  });
+
   it('should initialize tax info correctly for california state with a valid data', () => {
     const productTaxStates = generateProductData(californiaValidYear, baseValue);
     expect(productTaxStates.taxInfo).toBeDefined();
@@ -27,3 +33,4 @@ describe('Renders of TaxStates', () => {
     expect(productTaxStates.taxInfo).toHaveProperty('error', "Error: Invalid fiscal state");
   });
 });
+
