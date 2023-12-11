@@ -8,10 +8,11 @@ export type ProductData = {
     totalValue?: number;
 };
 
-type TaxInfo = {
+export type TaxInfo = {
     taxRates?: IConcreteTaxRates;
     error?: string;
 };
 
+export type StateFactoryMap = { [key: string]: (product: ProductData) => TaxInfo };
 export type TaxRateMethod = () => void;
 export type TaxRateMethodName = `year${number}`;

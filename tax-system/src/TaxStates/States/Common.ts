@@ -6,7 +6,7 @@ export const calcTaxRateForYear = (year: string, context: any) => {
     if (typeof (context)[methodName] === 'function') {
         (context)[methodName]();
         return '';
-    } else return "Error: Unregistered year";
+    } else return "Error: Unregistred year";
 }
 
 export function calculateTotalTax(taxRates: IConcreteTaxRates): { totalTaxRate: number, errorMsg: string } {

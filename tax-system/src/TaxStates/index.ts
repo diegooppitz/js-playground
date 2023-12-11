@@ -1,4 +1,4 @@
-import { ProductData, TaxInfo } from "@/types";
+import { ProductData, TaxInfo, StateFactoryMap } from "@/types";
 import { California } from "./States/California";
 import { NewYork } from "./States/NewYork";
 import { Ohio } from "./States/Ohio";
@@ -6,13 +6,14 @@ import { Ohio } from "./States/Ohio";
 export class TaxStates {
     taxInfo: TaxInfo;
     #federalTax: number;
-    #stateFactoryMap: { [key: string]: (product: ProductData) => TaxInfo } = {
+    #stateFactoryMap: StateFactoryMap = {
         'california': (product) => this.#createCalifornia(product),
         'ohio': (product) => this.#createOhio(product),
+        'new_york': (product) => this.#createNewYork(product),
     };
 
-    constructor(product: ProductData) {
-        this.#federalTax = 5;
+    constructor(product: ProductData, federalTaxRate: number) {
+        this.#federalTax = federalTaxRate;
         this.taxInfo = {};
         this.#getTaxRates(product);
     }
@@ -35,6 +36,16 @@ export class TaxStates {
 
     #createOhio(product: ProductData): TaxInfo {
         const ohio = new Ohio(product, this.#federalTax);
+        const result = ohio.getTaxRates();
+
+        if (typeof result === 'string') {
+            return { error: result };
+        }
+        return { taxRates: result };
+    }
+
+    #createNewYork(product: ProductData): TaxInfo {
+        const ohio = new NewYork(product, this.#federalTax);
         const result = ohio.getTaxRates();
 
         if (typeof result === 'string') {
