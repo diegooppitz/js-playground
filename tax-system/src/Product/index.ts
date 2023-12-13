@@ -1,24 +1,15 @@
 import { ProductData } from "@/types"; 
 
 export class Product {
-    productData: ProductData = {
-        productId: '',
-        year: '',
-        fiscalState: '',
-        baseValue: 0,
-        totalValue: 0
-    }
+    productData: ProductData
 
     constructor(newProductData: ProductData, newBaseValue: number) {
+        this.productData = { productId: '', year: '', fiscalState: '', baseValue: 0, totalValue: 0 }
         this.#createProduct(newProductData, newBaseValue)
     }
 
     updateTotalValue(totalValue: number){
         this.#setNewTotalValue(totalValue)
-    }
-
-    getProduct() {
-        return this.#returnProduct();
     }
 
     #createProduct(newProductData: ProductData, newBaseValue: number) {
@@ -44,9 +35,5 @@ export class Product {
 
     #setNewTotalValue(totalValue: number) {
         if(totalValue) this.productData.totalValue = totalValue;
-    }
-
-    #returnProduct() {
-        return this.productData;
     }
 }

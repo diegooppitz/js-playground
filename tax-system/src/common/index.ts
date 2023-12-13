@@ -4,6 +4,7 @@ import { ProductData } from "@/types";
 
 export const generateProductData = (createProductData: ProductData, baseValue: number, federalTaxRate: number) => {
     const product = new Product(createProductData, baseValue);
-    const newProductData = product.getProduct();
+    const newProductData = product.productData
+
     return new TaxStates(newProductData, federalTaxRate);
 }
