@@ -3,21 +3,17 @@ import { ProductData } from "@/types";
 export class Product {
     productData: ProductData
 
-    constructor(newProductData: ProductData, newBaseValue: number) {
+    constructor(newProductData: ProductData) {
+        console.log("product data", newProductData)
         this.productData = { productId: '', year: '', fiscalState: '', baseValue: 0, totalValue: 0 }
-        this.#createProduct(newProductData, newBaseValue)
+        this.#createProduct(newProductData)
     }
 
     updateTotalValue(totalValue: number){
         this.#setNewTotalValue(totalValue)
     }
 
-    #createProduct(newProductData: ProductData, newBaseValue: number) {
-        this.#setProductData(newProductData);
-        this.#setNewBaseValue(newBaseValue)
-    }
-
-    #setProductData({ productId, year, fiscalState, baseValue }: ProductData) {
+    #createProduct({ productId, year, fiscalState, baseValue }: ProductData) {
         if(year && fiscalState && baseValue) {
             this.productData = {
                 productId,
@@ -27,10 +23,6 @@ export class Product {
                 totalValue: 0
             };
         }
-    }
-
-    #setNewBaseValue(newBaseValue: number) {
-        if(newBaseValue) this.productData.baseValue = newBaseValue;
     }
 
     #setNewTotalValue(totalValue: number) {
