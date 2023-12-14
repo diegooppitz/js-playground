@@ -13,6 +13,10 @@ export type TaxInfo = {
     error?: string;
 };
 
+export type YearsTaxMethodMap = {
+    [year: string]: () => void;
+};
+
 export type StateFactoryMap = { [key: string]: (product: ProductData) => TaxInfo };
 export type TaxRateMethod = () => void;
 export type TaxRateMethodName = `year${number}`;
