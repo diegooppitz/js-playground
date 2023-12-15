@@ -4,7 +4,6 @@ export class Product {
     productData: ProductData
 
     constructor(newProductData: ProductData) {
-        console.log("product data", newProductData)
         this.productData = { productId: '', year: '', fiscalState: '', baseValue: 0, totalValue: 0 }
         this.#createProduct(newProductData)
     }

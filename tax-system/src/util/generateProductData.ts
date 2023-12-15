@@ -18,10 +18,18 @@ const generateRandomProductData = (): ProductData => ({
     baseValue: generateRandomBaseValue(),
 });
 
-export const generateProductData = (federalTaxRate: number) => {
-    const newProductData = generateRandomProductData();
-    const product = new Product(newProductData);
-    const productData = product.productData;
+export const generateProductData = (federalTaxRate: number, productDataOverrides?: Partial<ProductData> | null) => {
+    const defaultProductData = generateRandomProductData();
 
-    return new TaxStates(productData, federalTaxRate);
+    const productData: ProductData = {
+        productId: productDataOverrides?.productId ?? defaultProductData.productId,
+        year: productDataOverrides?.year ?? defaultProductData.year,
+        fiscalState: productDataOverrides?.fiscalState ?? defaultProductData.fiscalState,
+        baseValue: productDataOverrides?.baseValue ?? defaultProductData.baseValue,
+    };
+
+    console.log("product data", productData)
+    const product = new Product(productData);
+
+    return new TaxStates(product.productData, federalTaxRate);
 }

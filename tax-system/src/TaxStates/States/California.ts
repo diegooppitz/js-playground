@@ -56,7 +56,7 @@ export class California implements IConcreteTaxState {
     }
 
     #year2010() {
-        this.taxRates.salesTax = 7.5;
+        this.taxRates.salesTax = 6;
         this.taxRates.exciseTax = 15;
         const result = calculateTotalTax(this.taxRates);
 
@@ -64,7 +64,7 @@ export class California implements IConcreteTaxState {
     }
 
     #year2014() {
-        this.taxRates.salesTax = 7.25;
+        this.taxRates.salesTax = 7;
         this.taxRates.exciseTax = 15;
         const result = calculateTotalTax(this.taxRates);
 

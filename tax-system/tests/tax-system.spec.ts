@@ -1,44 +1,95 @@
 import { TaxSystem } from '../src/TaxSystem';
-import { generateProductData } from '../src/util/generateProductData';
-import { federalTaxRate } from "../src/mock";
 
 describe('Renders of TaxSystem', () => {
-  it('should initialize system without errors', () => {
-    const taxSystem = new TaxSystem();
-    expect(() => taxSystem.initSystem()).not.toThrow();
-  });
+    it('should initialize tax info correctly for california state with valid data', () => {
+        const productDataMock = {
+            productId: 'ry8ds4qgy',
+            year: '2014',
+            fiscalState: 'california',
+            baseValue: 2989
+        };
+    
+        const taxSystem = new TaxSystem();
+        taxSystem.initSystem(productDataMock);
 
-  it('should initialize tax info correctly for california state with a valid data', () => {
-    const productTaxStates = generateProductData(federalTaxRate);
-    expect(productTaxStates.taxInfo).toBeDefined();
-    expect(productTaxStates.taxInfo).not.toHaveProperty('error');
-    expect(productTaxStates.taxInfo.taxRates?.totalTaxRate).toBe(25);
-  });
+        const result = taxSystem.result;
 
-  it('should initialize tax info correctly for ohio state with a valid data', () => {
-    const productTaxStates = generateProductData(federalTaxRate);
-    expect(productTaxStates.taxInfo).toBeDefined();
-    expect(productTaxStates.taxInfo).not.toHaveProperty('error');
-    expect(productTaxStates.taxInfo.taxRates?.totalTaxRate).not.toBe(15);
-    expect(productTaxStates.taxInfo.taxRates?.totalTaxRate).toBe(23);
-  });
+        expect(result).toBeDefined();
+        expect(result).not.toHaveProperty('error');
+        expect(result?.taxRates?.totalTaxRate).toBe(27);
+    });
 
-  it('should handle state with invalid year correctly', () => {
-    const productTaxStates = generateProductData(federalTaxRate);
-    expect(productTaxStates.taxInfo).toHaveProperty('error', "Error: Unregistred year");
-  });
+    it('should initialize tax info correctly for ohio state with valid data', () => {
+        const productDataMock = {
+            productId: 'ry8ds4q32',
+            year: '2012',
+            fiscalState: 'ohio',
+            baseValue: 2000
+        };
+    
+        const taxSystem = new TaxSystem();
+        taxSystem.initSystem(productDataMock);
+    
 
-  it('should initialize tax info correctly for New York state with a valid data', () => {
-    const productTaxStates = generateProductData(federalTaxRate);
-    expect(productTaxStates.taxInfo).toBeDefined();
-    expect(productTaxStates.taxInfo).not.toHaveProperty('error');
-    expect(productTaxStates.taxInfo.taxRates?.totalTaxRate).not.toBe(23);
-    expect(productTaxStates.taxInfo.taxRates?.totalTaxRate).toBe(15);
-  });
+        const result = taxSystem.result;
 
-  it('should handle invalid state data correctly', () => {
-    const productTaxStates = generateProductData(federalTaxRate);
-    expect(productTaxStates.taxInfo).toHaveProperty('error', "Error: Invalid fiscal state");
-  });
+        expect(result).toBeDefined();
+        expect(result).not.toHaveProperty('error');
+        expect(result?.taxRates?.totalTaxRate).toBe(22.5);
+    });
+
+    it('should initialize state data valid and unregistred year(in the period between 2010 and 2023) correctly', () => {
+        const productDataMock = {
+            productId: 'ry8ds4q32',
+            year: '2019',
+            fiscalState: 'new_york',
+            baseValue: 2000
+        };
+    
+        const taxSystem = new TaxSystem();
+        taxSystem.initSystem(productDataMock);
+    
+
+        const result = taxSystem.result;
+
+        expect(result).toBeDefined();
+        expect(result).not.toHaveProperty('error');
+        expect(result?.taxRates?.totalTaxRate).toBe(23);
+    });
+
+
+    it('should initialize state data valid and year before 2010 correctly', () => {
+        const productDataMock = {
+            productId: 'ry8ds4q89',
+            year: '2005',
+            fiscalState: 'new_york',
+            baseValue: 2000
+        };
+    
+        const taxSystem = new TaxSystem();
+        taxSystem.initSystem(productDataMock);
+    
+
+        const result = taxSystem.result;
+
+        expect(result).toBeDefined();
+        expect(result).toHaveProperty('error');
+    });
+
+    it('should handle invalid state data correctly', () => {
+        const productDataMock = {
+            productId: 'ry8dhahdas',
+            year: '2019',
+            fiscalState: 'florida',
+            baseValue: 2000
+        };
+    
+        const taxSystem = new TaxSystem();
+        taxSystem.initSystem(productDataMock);
+    
+        const result = taxSystem.result;
+
+        expect(result).toBeDefined();
+        expect(result).toHaveProperty('error');
+    });
 });
-

@@ -1,13 +1,22 @@
 import { generateProductData } from "../util/generateProductData"
 import { federalTaxRate } from "../mock";
+import { ProductData, TaxInfo } from "@/types";
 
 export class TaxSystem {
-    initSystem() {
-        // product 1
-        const productTaxStates = generateProductData(federalTaxRate)
+    result?: TaxInfo;
 
-        if (productTaxStates.taxInfo.error) console.log("product1 -", productTaxStates.taxInfo.error);
-        else if (productTaxStates.taxInfo.taxRates) console.log("Product1 - Tax Rates:", productTaxStates.taxInfo.taxRates);
+    initSystem(productDataOverrides?: Partial<ProductData> | null) {
+        // product 1
+        const productTaxStates = generateProductData(federalTaxRate, productDataOverrides)
+
+        if (productTaxStates.taxInfo.error) {
+            console.log("product1 -", productTaxStates.taxInfo);
+            this.result = productTaxStates.taxInfo;
+        }
+        else if (productTaxStates.taxInfo.taxRates) {
+            console.log("Product1 - Tax Rates:", productTaxStates.taxInfo.taxRates);
+            this.result = productTaxStates.taxInfo;
+        }
         
         // product 2
         const productTaxStates2 = generateProductData(federalTaxRate)
