@@ -34,10 +34,8 @@ export class NewYork implements IConcreteTaxState {
             this.#yearTaxMethods[year].call(this);
         } else {
             let closestYear = this.#findClosestYear(year);
-            console.log(closestYear)
-            if (closestYear) {
-                this.#yearTaxMethods[closestYear].call(this);
-            } else {
+            if (closestYear) this.#yearTaxMethods[closestYear].call(this);
+            else {
                 this.errorMsg = 'No tax data available for the year.';
             }
         }

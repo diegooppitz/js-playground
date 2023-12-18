@@ -30,13 +30,12 @@ export class California implements IConcreteTaxState {
     }
 
     #calculateTaxRateForYear(year: string) {
-        if (this.#yearTaxMethods[year]) {
-            this.#yearTaxMethods[year].call(this);
-        } else {
+        if (this.#yearTaxMethods[year]) this.#yearTaxMethods[year].call(this);
+        else {
             let closestYear = this.#findClosestYear(year);
-            if (closestYear) {
-                this.#yearTaxMethods[closestYear].call(this);
-            } else {
+
+            if (closestYear) this.#yearTaxMethods[closestYear].call(this);
+            else {
                 this.errorMsg = 'No tax data available for the year.';
             }
         }
