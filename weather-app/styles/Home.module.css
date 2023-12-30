@@ -5,7 +5,7 @@
 }
 
 .appTitle {
-  font-size: 4rem;
+  font-size: 48px;
   font-weight: 600;
   margin-left: 15px;
 }
@@ -54,7 +54,6 @@
   background-color: #fff;
   margin: 0 10px;
   height: 366px;
-  width: 270px;
   min-width: 270px;
   padding: 40px 30px;
   border-radius: 20px;
@@ -64,7 +63,8 @@
   position: relative;
 }
 
-.cityCard h3, .cityCard p {
+.cityCard h3,
+.cityCard p {
   margin: 0;
   padding: 0;
 }
@@ -110,4 +110,43 @@
   cursor: pointer;
   top: 10px;
   right: 10px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+
+  .appTitle {
+    font-size: 34px
+  }
+
+  .container input {
+    font-size: 20px;
+  }
+
+  .container .form {
+    flex-direction: column;
+    margin: 0 15px 40px 15px;
+  }
+
+  .container input {
+    padding: 5px;
+  }
+
+  .container button {
+    margin-left: 0;
+    margin-top: 10px
+  }
+  .citiesContainer {
+    margin: 0 15px;
+  }
+
+  .cityCard {
+    min-width: 100%;
+  }
+
+  .cityCard:first-child {
+    margin: 0;
+  }
 }
