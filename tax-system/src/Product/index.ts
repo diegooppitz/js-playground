@@ -9,6 +9,12 @@ export class Product {
         this.#generateProductData(productDataOverrides)
     }
 
+    generateRandomProductData = (): ProductData => ({
+        productId: this.#generateRandomProductId(),
+        year: this.#generateRandomYear().toString(),
+        fiscalState: usStates[Math.floor(Math.random() * usStates.length)],
+        baseValue: this.#generateRandomBaseValue(),
+    });
 
     #generateProductData = (productDataOverrides?: Partial<ProductData> | null) => {
         const defaultProductData = this.generateRandomProductData();
@@ -38,17 +44,6 @@ export class Product {
         return Math.floor(Math.random() * MAX_BASE_VALUE);
     }
 
-    generateRandomProductData = (): ProductData => ({
-        productId: this.#generateRandomProductId(),
-        year: this.#generateRandomYear().toString(),
-        fiscalState: usStates[Math.floor(Math.random() * usStates.length)],
-        baseValue: this.#generateRandomBaseValue(),
-    });
-
-    updateTotalValue(totalValue: number) {
-        this.#setNewTotalValue(totalValue)
-    }
-
     #createProduct({ productId, year, fiscalState, baseValue }: ProductData) {
         if (year && fiscalState && baseValue) {
             this.productData = {
@@ -59,9 +54,5 @@ export class Product {
                 totalValue: 0
             };
         }
-    }
-
-    #setNewTotalValue(totalValue: number) {
-        if (totalValue) this.productData.totalValue = totalValue;
     }
 }
