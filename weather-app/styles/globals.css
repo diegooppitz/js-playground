@@ -5,6 +5,7 @@
 body, html {
     background-color: #0a1f44;
     font-family: "Roboto", sans-serif;
+    overflow-x: hidden;
 }
 
 input {

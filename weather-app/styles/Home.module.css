@@ -1,7 +1,7 @@
 .container {
   display: block;
   margin: 0 auto;
-  width: 70%;
+  width: 85%;
 }
 
 .appTitle {
@@ -140,10 +140,16 @@
   }
   .citiesContainer {
     margin: 0 15px;
+    gap: 20px;
+    flex-direction: column;
   }
 
   .cityCard {
     min-width: 100%;
+    padding: 30px;
+    margin: 0;
+    overflow: hidden;
+    height: auto;
   }
 
   .cityCard:first-child {
