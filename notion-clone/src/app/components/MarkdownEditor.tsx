@@ -33,20 +33,20 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
   const textSpaceRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const markdownValue = event.target.value ?? '';
+    const markdownValue = event?.target?.value ?? '';
     setMarkdownText(markdownValue);
 
     const textAreaElement = textAreaRef?.current;
-    if (textAreaElement) {
-      textAreaElement.style.height = `${textAreaElement.scrollHeight}px`
-    }
+    if (textAreaElement) textAreaElement.style.height = `${textAreaElement.scrollHeight}px`
   };
 
   const convertMarkdownToHTML = async (markdown: string) => {
     try {
       let isTextTag = true;
-      if(!markdown) return;
-      // console.log("markdown 1", markdown)
+      if (!markdown) {
+        setHtmlContent(markdown)
+        return;
+      }
 
       markdown = markdown.replace(/\[([^\]]+)\]\(([^\s)]+)\)/g, (_, linkText, url) => {
 
@@ -81,8 +81,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
         return `<ul>${listItems}</ul>`;
       });
 
-      // console.log("markdown2", markdown)
-
       setHtmlContent(markdown)
     } catch {
       setHtmlContent('')
@@ -95,7 +93,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
-      if(!isHome) newTextArea();
+      if (!isHome) newTextArea();
       event.preventDefault();
       setShowTextArea(true);
       setShowLinkPreview(false);
@@ -104,7 +102,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
 
   const handleBlur = async () => {
     if (!markdownText && !insertTextAreaValue) {
-      if(!isHome) removeEmpty(id);
+      if (!isHome) removeEmpty(id);
       return;
     }
 
@@ -116,7 +114,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
 
   const handleHoverLink = async () => {
     if (isLink) setShowLinkPreview(true);
-    
   }
 
   const handleMouseLeave = async () => {
@@ -132,7 +129,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
   };
 
   const initPageData = async () => {
-    if (!markdownText && insertTextAreaValue) {
+    if (insertTextAreaValue) {
       setMarkdownText(insertTextAreaValue)
       convertMarkdownToHTML(insertTextAreaValue);
     }
@@ -150,7 +147,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
   }, [showTextArea]);
 
   useEffect(() => {
-    if(insertTextAreaValue) initPageData()
+    initPageData()
   }, [insertTextAreaValue])
 
   useEffect(() => {
@@ -161,7 +158,6 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ insertTextAreaValue, is
       textAreaElement.blur();
     }
   }, [htmlContent])
-
 
   return (
     showTextArea && !isHome ? (

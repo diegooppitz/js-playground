@@ -6,8 +6,13 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DescriptionIcon from '@mui/icons-material/Description';
 import Image from 'next/image';
 
+interface PageItem {
+  name: string;
+  pageId: string;
+}
+
 const Sidebar: React.FC = () => {
-  const [pagesData, setPagesData] = useState(null);
+  const [pagesData, setPagesData] = useState<PageItem[] | null>(null);
 
   const router = useRouter()
 
@@ -19,7 +24,6 @@ const Sidebar: React.FC = () => {
 
   const createNewPage = async () => {
     const newPageId = generateRandomPageId();
-    const newPageOption =  { name: 'New Page', pageId: "new-page" }
 
     try {
       const newPageData = {
@@ -35,10 +39,10 @@ const Sidebar: React.FC = () => {
         },
         body: JSON.stringify(newPageData),
       });
-      let data = await response.json();
-      data.push(newPageOption);
 
-      setPagesData(data);
+      let data = await response.json();
+      if (data) addNewPageMenuOption(data)
+
       router.push(`/pages?id=${newPageId}`);
     } catch (error) {
       console.error('request error:', error);
@@ -46,15 +50,11 @@ const Sidebar: React.FC = () => {
   }
 
   const handleMenuItemClick = async (id: string | null) => {
-    if (id === "new-page") {
-      createNewPage();
-    }
+    if (id === "new-page") createNewPage();
     else if (id) router.push(`/pages?id=${id}`)
   }
 
   const loadPagesData = async () => {
-    const newPageOption =  { name: 'New Page', pageId: "new-page" }
-
     try {
       const response = await fetch(`/api/manage-pages-data`, {
         method: 'GET',
@@ -64,13 +64,19 @@ const Sidebar: React.FC = () => {
       });
 
       let data = await response.json();
-      data.push(newPageOption);
-
-      if (data) setPagesData(data);
+      if (data) addNewPageMenuOption(data)
     } catch (error) {
       console.error('load request error:', error);
     }
   };
+
+  const addNewPageMenuOption = async (data: PageItem[]) => {
+    const newPageOption =  { name: 'Add a page', pageId: "new-page" }
+
+    data.push(newPageOption);
+    setPagesData(data)
+  }
+
 
   useEffect(() => {
     loadPagesData()

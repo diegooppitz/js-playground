@@ -8,7 +8,7 @@ interface TextAreaProps {
 
 
 const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: string, isHome: boolean}> = ({ pageDataToLoad, pageId, isHome = false }) => {
-  const [textAreas, setTextAreas] = useState<{ id: string, markdownText: string | null }[]>([{ id: 'item-0', markdownText: null }]);
+  const [textAreas, setTextAreas] = useState<{ id: string, markdownText: string | null }[]>([{ id: '', markdownText: 'Type something here...' }]);
   const homeData = [{ id: 'item-home-0', markdownText: '# Getting Started' }, { id: 'item-home-1', markdownText: 'Welcome to Notion Clone!' }, { id: 'item-home-2', markdownText: '- This is a study project' }, { id: 'item-home-3', markdownText: '- Use Notion clone to organize your notations with lists, titles formats and more!'}, { id: 'item-home-4', markdownText: '- [Link example](https://www.youtube.com/embed/qbxCamPwMWs?si=3ePzPNK4irCiyOf-)'},]
 
   const generateId = (index: number): string => {
@@ -31,6 +31,7 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
 
   const saveContentTextArea = async (idToSave: string, markdownContent: string) => {
     if(isHome) return;
+
     textAreas.forEach((obj) => {
       if (obj.id === idToSave) {
         obj.markdownText = markdownContent;
@@ -60,7 +61,6 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
 
   const loadPage = async () => {
     if (pageDataToLoad && pageDataToLoad.length != 0) setTextAreas(pageDataToLoad)
-    setTextAreas(pageDataToLoad)
   }
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const MainContent: React.FC<{ pageDataToLoad: TextAreaProps[] | null, pageId: st
   }, [pageDataToLoad])
 
   useEffect(() => {
-    if (!textAreas || textAreas.length === 0) setTextAreas([{ id: 'item-0', markdownText: null }])
+    if (!textAreas || textAreas.length === 0) setTextAreas([{ id: 'item-0', markdownText: 'Type something here...'}])
   }, [textAreas])
 
   return (
