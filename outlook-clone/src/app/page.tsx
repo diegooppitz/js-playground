@@ -3,7 +3,7 @@ import styles from './page.module.css'
 export default function Home() {
   return (
     <main className={styles.main}>
-      <div></div>
+      <div>Welcome to the Calendar</div>
     </main>
   )
 }
