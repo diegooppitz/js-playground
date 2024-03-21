@@ -1,9 +1,10 @@
-import styles from './page.module.css'
+import React from 'react';
+import WelcomePage from './(pages)/welcome/page';
 
-export default function Home() {
+const Home = () => {
   return (
-    <main className={styles.main}>
-      <div>Welcome to the Calendar</div>
-    </main>
-  )
-}
+    <WelcomePage />
+  );
+};
+
+export default Home;

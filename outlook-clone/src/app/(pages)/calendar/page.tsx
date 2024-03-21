@@ -1,6 +1,6 @@
 export const Calendar = () => {
     return (
-        <div> Calendar page</div>
+        <h1 id="calendar-title">Calendar page</h1>
     )
   }
   

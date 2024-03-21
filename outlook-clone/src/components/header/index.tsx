@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <h1>Outlook Calendar</h1>
+        <h1 id="header-title">Outlook Calendar</h1>
       </div>
       <nav className={styles.navSection}>
         <button aria-label="Previous" className={styles.navButton}>Previous</button>
@@ -13,7 +13,7 @@ const Header = () => {
         <button aria-label="Next" className={styles.navButton}>Next</button>
       </nav>
       <div className={styles.actionSection}>
-        <button className={styles.actionButton}>New Event</button>
+        <a className={styles.actionButton}>New Event</a>
       </div>
     </header>
   );
