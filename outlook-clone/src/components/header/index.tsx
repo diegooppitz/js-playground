@@ -4,16 +4,11 @@ import styles from './header.module.css';
 const Header = () => {
   return (
     <header className={styles.header}>
-      <div className={styles.logoSection}>
+      <a className={styles.logoSection} href='/'>
         <h1 id="header-title">Outlook Calendar</h1>
-      </div>
-      <nav className={styles.navSection}>
-        <button aria-label="Previous" className={styles.navButton}>Previous</button>
-        <button aria-label="Today" className={styles.navButton}>Today</button>
-        <button aria-label="Next" className={styles.navButton}>Next</button>
-      </nav>
+      </a>
       <div className={styles.actionSection}>
-        <a className={styles.actionButton}>New Event</a>
+        <a className={styles.newEvent} href='/new-event'>New Event</a>
       </div>
     </header>
   );

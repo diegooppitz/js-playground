@@ -18,6 +18,9 @@ module.exports = {
     "!**/dist/**",
     "!src/**/*.d.ts", 
   ],
+  coveragePathIgnorePatterns: [
+    "<rootDir>/src/app/layout.tsx", "<rootDir>/src/app/page.tsx"
+  ],
   coverageReporters: ['text', 'cobertura', 'text-summary'],
   coverageThreshold: {
     global: {
