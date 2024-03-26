@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Header from "../components/header";
+import Head from "next/head";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Outlook App</title>
+        <link
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+          rel="stylesheet"
+        />
       </head>
       <body className={inter.className}>
         <Header />

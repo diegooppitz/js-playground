@@ -1,0 +1,29 @@
+.calendar-fullscreen {
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    width: 90%;
+    margin: 30px auto;
+    background-color: white;
+  
+    .week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      flex-grow: 1;
+      gap: 1px;
+      background-color: #f0f0f0;
+  
+      .day {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        overflow: auto;
+      }
+  
+      .date {
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd; // Separação visual entre a data e o conteúdo do dia
+      }
+    }
+  }
