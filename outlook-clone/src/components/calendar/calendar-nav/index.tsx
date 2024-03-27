@@ -1,11 +1,37 @@
 import React from "react";
 import "./calendarNav.scss";
 
-type CalendarNavProps = {
-  setCurrentDay: (day: string) => void;
+type WeekDay = {
+  name: string;
+  date: Date;
 };
 
-const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay }) => {
+type CalendarDataTypes = {
+  week: WeekDay;
+  firstDay: string;
+  lastDay: string;
+  currentYear: string;
+  today: Date;
+};
+
+type CalendarNavProps = {
+  setCurrentDay: (day: string) => void;
+  calendarData: CalendarDataTypes,
+};
+
+const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }) => {
+
+
+  const dateInfos = (): any => {
+    // const month = date.getMonth() + 1; // ???
+    const firstDay = calendarData.firstDay;
+    const lastDay = calendarData.lastDay;
+    const currentYear = calendarData.currentYear;
+
+    return `[MONTH] ${firstDay} - ${lastDay}, ${currentYear}`;
+  };
+
+
   return (
     <div className="calendar-nav">
       <div className="calendar-nav-controls">
@@ -24,10 +50,7 @@ const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay }) => {
           </button>
         </div>
         <div className="calendar-nav-group">
-          <div className="calendar-nav-date-range">March 24-30, 2024</div>
-          <button className="calendar-nav-dropdown-button">
-            <i className="fa fa-chevron-down"></i>
-          </button>
+          <div className="calendar-nav-date-range">{dateInfos()}</div>
         </div>
       </div>
     </div>
