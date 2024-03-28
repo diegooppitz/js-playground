@@ -1,14 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { EventFormValues } from '@/src/types';
 import styles from "./new-event.module.css";
-
-interface EventFormValues {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  attendees: string;
-}
 
 const NewEvent: React.FC = () => {
   const initialState: EventFormValues = {

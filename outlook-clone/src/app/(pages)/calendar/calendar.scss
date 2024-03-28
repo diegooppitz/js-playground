@@ -19,11 +19,13 @@
         overflow: auto;
       }
   
-      .date {
+      .date-wrapper {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #ddd;
         padding: 10px;
         font-size: 16px;
-        font-weight: bold;
-        border-bottom: 1px solid #ddd; // Separação visual entre a data e o conteúdo do dia
+        font-weight: 700;
       }
     }
   }

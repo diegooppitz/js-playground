@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { WeekDay } from "@/src/types";
 
-type WeekDay = {
-  name: string;
-  date: Date;
-};
+const formatDay = (date: Date) => (`0${date.getDate()}`).slice(-2);
 
 const getMonday = (d: Date): Date => {
   const date = new Date(d);
@@ -14,13 +12,13 @@ const getMonday = (d: Date): Date => {
 
 const getWeekDay = (date: Date): string => {
     const weekDays = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
     ];
 
     return weekDays[date.getDay()];
@@ -44,10 +42,13 @@ const handler = (req: NextApiRequest, res: NextApiResponse): void => {
   const firstDayDate = new Date(mockWeek[0].date);
   const lastDayDate = new Date(mockWeek[6].date);
 
+  const firstDayFormatted = formatDay(firstDayDate);
+  const lastDayFormatted = formatDay(lastDayDate);
+
   res.status(200).json({
     week: mockWeek,
-    firstDay: firstDayDate,
-    lastDay: lastDayDate,
+    firstDay: firstDayFormatted,
+    lastDay: lastDayFormatted,
     currentYear: today.getFullYear(),
     today: new Date(today),
   });
