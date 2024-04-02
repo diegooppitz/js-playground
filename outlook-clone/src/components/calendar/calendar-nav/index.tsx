@@ -1,14 +1,14 @@
 import React from "react";
-import { manageWeekInfos } from "@/src/utils";
+import { manageWeekInfos } from "@/src/utils/dates/manage_infos";
 import { CalendarNavProps } from "@/src/types";
 import "./calendarNav.scss";
 
 const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }) => {
   const dateInfos = (): any => {
-    const { firstDay, lastDay, year } = manageWeekInfos(calendarData) || {};
-    if (!firstDay || !lastDay || !year) return null;
+    const { formattedRange } = manageWeekInfos(calendarData) || {};
+    if (!formattedRange) return null;
 
-    return `[MONTH] ${firstDay} - ${lastDay}, ${year}`;
+    return formattedRange;
   };
 
 

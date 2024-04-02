@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CalendarNav from "@/src/components/calendar/calendar-nav";
-import { manageDayInfos } from "@/src/utils";
+import { manageDayInfos } from "@/src/utils/dates/manage_infos";
 import { CalendarDataTypes, WeekDay } from "@/src/types";
 import "./calendar.scss";
 
@@ -19,16 +19,16 @@ const Calendar: React.FC = () => {
   };
 
   const dayDateInfo = (dayData: any) => {
-    const { weekDay, monthDay } = manageDayInfos(dayData) || {};
+    const { weekDay, monthDay, dateIsToday } = manageDayInfos(dayData) || {};
 
-    return { weekDay, monthDay };
+  return { weekDay, monthDay, dateIsToday };
   }
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const hasWeekData = weekData && weekData.length > 0;
+  const hasWeekData = weekData && weekData.length > 0; 
 
   return (
     <div className="calendar-fullscreen">
@@ -40,16 +40,17 @@ const Calendar: React.FC = () => {
           />
           <div className="week-grid">
             {weekData.map((dayData, index) => {
-              const { monthDay, weekDay } = dayDateInfo(dayData) || {};
+              const { monthDay, weekDay, dateIsToday } = dayDateInfo(dayData) || {};
 
+              const isToday = dateIsToday ? 'date-day-today date-day' : 'date-day';
 
               return (
                 <div key={index} className="day">
                   <div className="date-wrapper">
-                    <span>
+                    <span className="week-day">
                       {weekDay}
                     </span>
-                    <span>
+                    <span className={isToday}>
                       {monthDay}
                     </span>
                   </div>

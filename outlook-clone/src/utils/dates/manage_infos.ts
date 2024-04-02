@@ -8,13 +8,14 @@ export const checkDateIsToday = (date: Date): boolean => {
 export const manageWeekInfos = (calendarData: any): any => {
     const calendarDataKeys = calendarData && Object.keys(calendarData);
     if (!calendarData || calendarDataKeys?.length === 0) return null;
-    // const month = date.getMonth() + 1; // ???
+
     const firstDay = calendarData?.firstDay;
     const lastDay = calendarData?.lastDay;
     const year = calendarData?.currentYear;
     const week = calendarData?.currentYear;
+    const formattedRange = calendarData?.formattedRange;
 
-    return { firstDay, lastDay, week, year };
+    return { firstDay, lastDay, week, year, formattedRange };
 };
 
 export const manageDayInfos = (dayData: any): any => {
