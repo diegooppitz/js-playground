@@ -1,6 +1,6 @@
 import React from "react";
-import { manageWeekInfos } from "@/src/utils/dates/manage_infos";
-import { CalendarNavProps } from "@/src/types";
+import { manageWeekInfos } from "@/utils/dates/manage_infos";
+import { CalendarNavProps } from "@/types";
 import "./calendarNav.scss";
 
 const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }) => {

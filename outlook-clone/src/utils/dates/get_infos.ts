@@ -1,5 +1,5 @@
-import { WeekDay } from "@/src/types";
-import { formatDateInfo, formatWeekDay } from "@/src/utils/dates/format_infos";
+import { WeekDay } from "@/types";
+import { formatDateInfo, formatWeekDay } from "@/utils/dates/format_infos";
 
 const getSunday = (d: Date): Date => {
   const date = new Date(d);

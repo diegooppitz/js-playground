@@ -1,4 +1,4 @@
-import { WeekDay } from "@/src/types";
+import { WeekDay } from "@/types";
 
 export const formatDay = (date: Date) => (`0${date.getDate()}`).slice(-2);
 

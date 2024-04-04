@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { EventFormValues } from '@/src/types';
+import { EventFormValues } from '@/types';
 import styles from "./new-event.module.css";
 
 const NewEvent: React.FC = () => {

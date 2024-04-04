@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import CalendarNav from "@/src/components/calendar/calendar-nav";
-import { manageDayInfos } from "@/src/utils/dates/manage_infos";
-import { CalendarDataTypes, WeekDay } from "@/src/types";
+import CalendarNav from "@/components/calendar/calendar-nav";
+import { manageDayInfos } from "@/utils/dates/manage_infos";
+import { CalendarDataTypes, WeekDay } from "@/types";
 import "./calendar.scss";
 
 const Calendar: React.FC = () => {
@@ -46,11 +46,11 @@ const Calendar: React.FC = () => {
 
               return (
                 <div key={index} className="day">
-                  <div className="date-wrapper">
-                    <span className="week-day">
+                  <div data-testid={`date-wrapper-${index}`} className="date-wrapper">
+                    <span data-testid={`week-day-${index}`} className="week-day">
                       {weekDay}
                     </span>
-                    <span className={isToday}>
+                    <span data-testid={`month-day-${index}`} className={isToday}>
                       {monthDay}
                     </span>
                   </div>
