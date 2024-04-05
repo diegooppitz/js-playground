@@ -11,6 +11,7 @@ const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }
     return formattedRange;
   };
 
+  const formattedRange = dateInfos();
 
   return (
     <div className="calendar-nav">
@@ -29,12 +30,17 @@ const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }
             <i className="fa fa-chevron-right"></i>
           </button>
         </div>
-        <div className="calendar-nav-group">
-          <div className="calendar-nav-date-range">{dateInfos()}</div>
-        </div>
+        {formattedRange && (
+          <div className="calendar-nav-group">
+            <div data-testid="calendar-nav-date-range" className="calendar-nav-date-range">
+              {formattedRange}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
 
 export default CalendarNav;

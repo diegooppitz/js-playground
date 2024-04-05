@@ -1,24 +1,24 @@
 import { WeekDay } from "@/types";
 
-export const formatDay = (date: Date) => (`0${date.getDate()}`).slice(-2);
+export const formatDay = (date: Date) => (`0${date.getUTCDate()}`).slice(-2);
 
 export const formatDateInfo = (mockWeek: WeekDay[]) => {
+
     const firstDayDate = new Date(mockWeek[0].date);
-    const lastDayDate = new Date(mockWeek[6].date);
+    const lastDayDate = new Date(mockWeek[mockWeek.length - 1].date);
 
-    const firstDayFormatted = formatDay(firstDayDate);
-    const lastDayFormatted = formatDay(lastDayDate);
 
-    const firstMonth = firstDayDate.toLocaleString("en-US", { month: "long" });
+    const firstMonth = firstDayDate.toLocaleString("en-US", { month: "long", timeZone: "UTC" });
+    const lastMonth = lastDayDate.toLocaleString("en-US", { month: "long", timeZone: "UTC" });
+
     const firstDay = formatDay(firstDayDate);
-    const lastMonth = lastDayDate.toLocaleString("en-US", { month: "long" });
     const lastDay = formatDay(lastDayDate);
 
-    const formattedRange = `${firstMonth} ${firstDay} - ${lastMonth} ${lastDay}`;
+    const formattedRange = `${firstMonth} ${firstDay} - ${(lastMonth === firstMonth ? '' : lastMonth + ' ')}${lastDay}`;
 
     return {
-        firstDayFormatted,
-        lastDayFormatted,
+        firstDayFormatted: formatDay(firstDayDate),
+        lastDayFormatted: formatDay(lastDayDate),
         firstMonth,
         firstDay,
         lastMonth,
@@ -28,9 +28,9 @@ export const formatDateInfo = (mockWeek: WeekDay[]) => {
 };
 
 export const formatWeekName = (date: Date): string => {
-    return date.toLocaleDateString("en-US", { weekday: "long" });
+    return date.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" });
 };
 
 export const formatWeekDay = (date: Date): string => {
-    return date.toLocaleDateString("en-US", { weekday: "short" });
+    return date.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" });
 };

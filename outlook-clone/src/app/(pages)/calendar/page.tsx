@@ -1,34 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CalendarNav from "@/components/calendar/calendar-nav";
+import { formattedDateInfo } from "@/utils/dates/get_infos";
 import { manageDayInfos } from "@/utils/dates/manage_infos";
 import { CalendarDataTypes, WeekDay } from "@/types";
 import "./calendar.scss";
 
 const Calendar: React.FC = () => {
-  const [calendarData, setCalendarData] = useState<CalendarDataTypes | null>(null);
-  const [weekData, setWeekData] = useState<WeekDay[] | null>(null);
   const [currentDay, setCurrentDay] = useState<string>("Mar 26");
 
-  const fetchData = async () => {
-    const response = await fetch("http://localhost:4000/api/calendar");
-    const data = await response.json();
-
-    setCalendarData(data);
-    if (data?.week?.length > 0) setWeekData(data.week);
-  };
+  const calendarData: CalendarDataTypes = formattedDateInfo;
+  const weekData: WeekDay[] = formattedDateInfo.week;
+  const hasWeekData = weekData?.length > 0; 
 
   const dayDateInfo = (dayData: any) => {
     const { weekDay, monthDay, dateIsToday } = manageDayInfos(dayData) || {};
 
   return { weekDay, monthDay, dateIsToday };
   }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const hasWeekData = weekData && weekData.length > 0; 
 
   return (
     <div className="calendar-fullscreen">

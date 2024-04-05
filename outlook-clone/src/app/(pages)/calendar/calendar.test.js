@@ -12,19 +12,34 @@ afterAll(() => {
   delete global.fetch;
 });
 
-describe("Calendar Component", () => {
-  it("renders correctly", async () => {
+describe('Calendar page', () => {
+  const weekData = formattedDateInfo.week;
+  it('Test the week Data content', async () => {
     render(<Calendar />);
-    const weekData = formattedDateInfo.week;
 
-    for (let i = 0; i < weekData.length; i++) {
-      const dateWrapper = await screen.findByTestId(`date-wrapper-${i}`);
-      const weekDay = await screen.findByTestId(`week-day-${i}`);
-      const monthDay = await screen.findByTestId(`month-day-${i}`);
+    weekData.forEach(async (dayData, index) => {
+      const dateWrapper = await screen.findByTestId(`date-wrapper-${index}`);
+      const weekDay = await screen.findByTestId(`week-day-${index}`);
+      const monthDay = await screen.findByTestId(`month-day-${index}`);
 
       expect(dateWrapper).toBeInTheDocument();
       expect(weekDay).toBeInTheDocument();
       expect(monthDay).toBeInTheDocument();
+
+      expect(weekDay).toHaveTextContent(dayData.weekDay);
+      expect(monthDay.textContent).toBeTruthy();
+    });
+  });
+
+  it("Render month day correctly", async () => {
+    render(<Calendar />);
+
+    for (let index = 0; index < weekData.lenght; index++) {
+      const dayData = weekData[index];
+      const monthDay = await screen.findByTestId(`month-day-${index}`);
+      const expectedMonthDay = new Date(dayData.date).getDate().toString();
+
+      expect(monthDay).toHaveTextContent(expectedMonthDay);
     }
   });
 });

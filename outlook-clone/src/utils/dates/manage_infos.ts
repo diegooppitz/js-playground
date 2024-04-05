@@ -12,10 +12,9 @@ export const manageWeekInfos = (calendarData: any): any => {
     const firstDay = calendarData?.firstDay;
     const lastDay = calendarData?.lastDay;
     const year = calendarData?.currentYear;
-    const week = calendarData?.currentYear;
     const formattedRange = calendarData?.formattedRange;
 
-    return { firstDay, lastDay, week, year, formattedRange };
+    return { firstDay, lastDay, year, formattedRange };
 };
 
 export const manageDayInfos = (dayData: any): any => {
