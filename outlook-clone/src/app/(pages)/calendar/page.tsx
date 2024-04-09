@@ -1,26 +1,25 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CalendarNav from "@/components/calendar/calendar-nav";
 import { formattedDateInfo } from "@/utils/dates/get_infos";
 import { manageDayInfos } from "@/utils/dates/manage_infos";
 import { CalendarDataTypes, WeekDay } from "@/types";
 import "./calendar.scss";
 
+export const dayDateInfo = (dayData: any) => {
+  const { weekDay, monthDay, dateIsToday } = manageDayInfos(dayData) || {};
+  return { weekDay, monthDay, dateIsToday };
+};
+
 const Calendar: React.FC = () => {
   const [currentDay, setCurrentDay] = useState<string>("Mar 26");
 
-  const calendarData: CalendarDataTypes = formattedDateInfo;
+  const calendarData: any = formattedDateInfo;
   const weekData: WeekDay[] = formattedDateInfo.week;
   const hasWeekData = weekData?.length > 0; 
 
-  const dayDateInfo = (dayData: any) => {
-    const { weekDay, monthDay, dateIsToday } = manageDayInfos(dayData) || {};
-
-  return { weekDay, monthDay, dateIsToday };
-  }
-
   return (
-    <div className="calendar-fullscreen">
+    <div data-testid="calendar-fullscreen" className="calendar-fullscreen">
       {hasWeekData && (
         <>
           <CalendarNav
