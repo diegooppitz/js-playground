@@ -1,10 +1,10 @@
 import React from "react";
 import { manageWeekInfos } from "@/utils/dates/manage_infos";
-import { CalendarNavProps } from "@/types";
+import { CalendarNavPropsTypes } from "@/types";
 import "./calendarNav.scss";
 
-const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }) => {
-  const dateInfos = (): any => {
+const CalendarNav: React.FC<CalendarNavPropsTypes> = ({ calendarData }) => {
+  const dateInfos = (): string | null => {
     const { formattedRange } = manageWeekInfos(calendarData) || {};
     if (!formattedRange) return null;
 
@@ -18,7 +18,6 @@ const CalendarNav: React.FC<CalendarNavProps> = ({ setCurrentDay, calendarData }
       <div className="calendar-nav-controls">
         <button
           className="calendar-nav-today-button"
-          onClick={() => setCurrentDay("Mar 26")}
         >
           Today
         </button>

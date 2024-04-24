@@ -1,19 +1,18 @@
-import { WeekDay } from "@/types";
+import { CalendarDataTypes, WeekDay } from "@/types";
 import { formatDateInfo, formatWeekDay } from "@/utils/dates/format_infos";
+import { findSundayInfo } from "./manage_infos";
 
-const getSunday = (d: Date): Date => {
-  const date = new Date(d);
-  const day = date.getDay();
-  const diff = date.getDate() - day;
-  return new Date(date.setDate(diff));
+const getSunday = (): Date => {
+  return findSundayInfo();
 };
 
-const today = new Date();
-const sunday = getSunday(today);
+const getToday = (): Date => {
+  return new Date();
+};
 
 const mockWeek: WeekDay[] = Array.from({ length: 7 }).map((_, index) => {
-  const day = new Date(sunday);
-  day.setDate(sunday.getDate() + index);
+  const day = new Date(getSunday());
+  day.setDate(getSunday().getDate() + index);
 
   return {
     name: formatWeekDay(day),
@@ -22,17 +21,20 @@ const mockWeek: WeekDay[] = Array.from({ length: 7 }).map((_, index) => {
   };
 });
 
-const {
-  firstDayFormatted,
-  lastDayFormatted,
-  formattedRange,
-} = formatDateInfo(mockWeek);
 
-export const formattedDateInfo = {
-  week: mockWeek,
-  firstDay: firstDayFormatted,
-  lastDay: lastDayFormatted,
-  currentYear: today.getFullYear(),
-  today: new Date(today),
-  formattedRange: formattedRange,
+export const getFormattedDateInfo = (): CalendarDataTypes => {
+  const {
+    firstDayFormatted,
+    lastDayFormatted,
+    formattedRange,
+  } = formatDateInfo(mockWeek);
+
+  return {
+    week: mockWeek,
+    firstDay: firstDayFormatted,
+    lastDay: lastDayFormatted,
+    currentYear: getToday().getFullYear(),
+    today: getToday(),
+    formattedRange: formattedRange,
+  }
 };

@@ -2,11 +2,11 @@ import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Calendar from "./page";
 import { dayDateInfo } from './page';
-import { formattedDateInfo } from "@/utils/dates/get_infos";
+import { getFormattedDateInfo } from "@/utils/dates/get_infos";
 import * as dateUtils from "@/utils/dates/manage_infos";
 
 beforeAll(() => {
-  global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve(formattedDateInfo) }));
+  global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve(getFormattedDateInfo()) }));
 });
 
 afterAll(() => {
@@ -15,7 +15,7 @@ afterAll(() => {
 });
 
 describe('Calendar page', () => {
-  const weekData = formattedDateInfo.week;
+  const weekData = getFormattedDateInfo().week;
   it('Test the week Data content', async () => {
     render(<Calendar />);
 

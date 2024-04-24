@@ -5,6 +5,14 @@ export const checkDateIsToday = (date: Date): boolean => {
     return dateString === todayString;
 }
 
+export const findSundayInfo =  (): Date => {
+    const date = new Date();
+    const day = date.getDay();
+    const diff = date.getDate() - day;
+
+    return new Date(date.setDate(diff));
+  };
+
 export const manageWeekInfos = (calendarData: any): any => {
     const calendarDataKeys = calendarData && Object.keys(calendarData);
     if (!calendarData || calendarDataKeys?.length === 0) return null;

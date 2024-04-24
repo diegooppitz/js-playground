@@ -1,26 +1,38 @@
-export type WeekDay = {
-    name: string;
-    weekDay: string;
-    date: Date;
+export type CalendarDataTypes = {
+  week: WeekDay[];
+  firstDay: string;
+  lastDay: string;
+  currentYear: string | Number;
+  today: Date;
+  formattedRange?: string;
 };
 
-export type CalendarDataTypes = {
-    week: WeekDay;
-    firstDay: string;
-    lastDay: string;
-    currentYear: string;
-    today: Date;
-  };
+export type CalendarNavPropsTypes = {
+  calendarData: CalendarDataTypes | null,
+};
 
-  export type CalendarNavProps = {
-    setCurrentDay: (day: string) => void;
-    calendarData: CalendarDataTypes | null,
-  };
+export type SuggestedDate = {
+  selectedDate: string;
+  startTime: string;
+  endTime: string;
+};
 
-  export type EventFormValues = {
-    title: string;
-    description: string;
-    date: string;
-    time: string;
-    attendees: string;
-  }
+type EventModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  suggestedDate: SuggestedDate;
+};
+
+export type EventFormValues = {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  attendees: string;
+}
+
+export type WeekDay = {
+  name: string;
+  weekDay: string;
+  date: Date;
+};

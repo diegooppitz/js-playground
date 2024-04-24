@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './eventModal.scss';
+import { EventModalProps } from '@/types';
 
-interface EventModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  selectedDate: Date | null;
+const mockFormData = {
+  eventTitle: '',
+  endDate: '',
+  allDay: false,
+  eventDescription: ''
 }
 
-const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selectedDate }) => {
+const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate }) => {
   const [formData, setFormData] = useState({
-    eventTitle: '',
-    startDate: selectedDate ? selectedDate.toISOString().substr(0, 10) : '',
-    endDate: selectedDate ? selectedDate.toISOString().substr(0, 10) : '',
-    allDay: false,
+    ...mockFormData,
+    startDate: '',
+    endDate: '',
     startTime: '',
     endTime: '',
-    eventDescription: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLInputElement>) => {
@@ -31,6 +31,17 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selectedDate }
     console.log(formData);
     onClose();
   };
+
+  useEffect(() => {
+    setFormData({
+      ...mockFormData,
+      startDate: suggestedDate.selectedDate,
+      endDate: suggestedDate.selectedDate,
+      startTime: suggestedDate.startTime,
+      endTime: suggestedDate.endTime,
+    })
+  }, [suggestedDate])
+
 
   if (!isOpen) return null;
 
@@ -48,7 +59,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selectedDate }
             <div className="date-configs">
               <div className="inputs-date-config">
                 <input type='date' name='startDate' value={formData.startDate} onChange={handleChange} disabled={formData.allDay} />
-                <input type='time' name='endTime' value={formData.endTime} onChange={handleChange} />
+                <input type='time' name='startTime' value={formData.startTime} onChange={handleChange} disabled={formData.allDay} />
 
                 <div className="input-all-day">
                     <input type='checkbox' id='allDay' name='allDay' checked={formData.allDay} onChange={handleChange} />
@@ -58,7 +69,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, selectedDate }
 
               <div className="inputs-date-config">
                 <input type='date' name='endDate' value={formData.endDate} onChange={handleChange} disabled={formData.allDay} />
-                <input type='time' name='startTime' value={formData.startTime} onChange={handleChange} />
+                <input type='time' name='endTime' value={formData.endTime} onChange={handleChange} disabled={formData.allDay} />
               </div>
             </div>
 
