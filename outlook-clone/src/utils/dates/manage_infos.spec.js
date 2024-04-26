@@ -22,7 +22,6 @@ describe('Manage Infos util file', () => {
         formattedRange: '1 Jan - 7 Jan',
       };
       const result = manageWeekInfos(mockCalendarData);
-      console.log("result", result)
       expect(result).toEqual({
         firstDay: '2024-01-01',
         lastDay: '2024-01-07',

@@ -3,7 +3,7 @@ import { manageWeekInfos } from "@/utils/dates/manage_infos";
 import { CalendarNavPropsTypes } from "@/types";
 import "./calendarNav.scss";
 
-const CalendarNav: React.FC<CalendarNavPropsTypes> = ({ calendarData }) => {
+const CalendarNav: React.FC<CalendarNavPropsTypes> = ({ calendarData, setWeekToGo, weekToGo }) => {
   const dateInfos = (): string | null => {
     const { formattedRange } = manageWeekInfos(calendarData) || {};
     if (!formattedRange) return null;
@@ -22,10 +22,10 @@ const CalendarNav: React.FC<CalendarNavPropsTypes> = ({ calendarData }) => {
           Today
         </button>
         <div className="calendar-nav-group">
-          <button className="calendar-nav-navigation-button" onClick={() => {}}>
+          <button className="calendar-nav-navigation-button" onClick={() => setWeekToGo(--weekToGo)}>
             <i className="fa fa-chevron-left"></i>
           </button>
-          <button className="calendar-nav-navigation-button" onClick={() => {}}>
+          <button className="calendar-nav-navigation-button" onClick={() => setWeekToGo(++weekToGo)}>
             <i className="fa fa-chevron-right"></i>
           </button>
         </div>

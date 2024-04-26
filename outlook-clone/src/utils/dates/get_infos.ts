@@ -10,6 +10,25 @@ const getToday = (): Date => {
   return new Date();
 };
 
+const getWeek = (weekToGo: number): WeekDay[] => {
+  const sunday = getSunday();
+  const targetSunday = new Date(sunday);
+  targetSunday.setDate(sunday.getDate() + (weekToGo * 7));
+
+  const week = Array.from({ length: 7 }).map((_, index) => {
+    const day = new Date(targetSunday);
+    day.setDate(targetSunday.getDate() + index);
+
+    return {
+      name: formatWeekDay(day),
+      date: day,
+      weekDay: formatWeekDay(day),
+    };
+  });
+
+  return week;
+};
+
 const mockWeek: WeekDay[] = Array.from({ length: 7 }).map((_, index) => {
   const day = new Date(getSunday());
   day.setDate(getSunday().getDate() + index);
@@ -22,15 +41,15 @@ const mockWeek: WeekDay[] = Array.from({ length: 7 }).map((_, index) => {
 });
 
 
-export const getFormattedDateInfo = (): CalendarDataTypes => {
+export const getFormattedDateInfo = (weekToGo: number = 0): CalendarDataTypes => {
   const {
     firstDayFormatted,
     lastDayFormatted,
     formattedRange,
-  } = formatDateInfo(mockWeek);
+  } = formatDateInfo(getWeek(weekToGo));
 
   return {
-    week: mockWeek,
+    week: getWeek(weekToGo),
     firstDay: firstDayFormatted,
     lastDay: lastDayFormatted,
     currentYear: getToday().getFullYear(),

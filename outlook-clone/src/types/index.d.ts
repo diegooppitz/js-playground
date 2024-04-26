@@ -1,3 +1,5 @@
+import React from "react";
+
 export type CalendarDataTypes = {
   week: WeekDay[];
   firstDay: string;
@@ -9,6 +11,8 @@ export type CalendarDataTypes = {
 
 export type CalendarNavPropsTypes = {
   calendarData: CalendarDataTypes | null,
+  setWeekToGo: React.Dispatch;
+  weekToGo: any,
 };
 
 export type SuggestedDate = {

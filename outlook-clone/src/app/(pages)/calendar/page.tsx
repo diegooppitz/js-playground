@@ -15,9 +15,10 @@ export const dayDateInfo = (dayData: any) => {
 const Calendar: React.FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [suggestedDate, setSuggestedDate] = useState({ selectedDate: '', startTime: '', endTime: '' });
+  const [weekToGo, setWeekToGo] = useState<number>(0);
 
-  const calendarData: CalendarDataTypes = getFormattedDateInfo();
-  const weekData: WeekDay[] = getFormattedDateInfo().week;
+  const calendarData: CalendarDataTypes = getFormattedDateInfo(weekToGo);
+  const weekData: WeekDay[] = getFormattedDateInfo(weekToGo).week;
   const hasWeekData = weekData?.length > 0;
 
   const getCurrentTimeFormatted = () => {
@@ -63,7 +64,7 @@ const Calendar: React.FC = () => {
     <div data-testid="calendar-fullscreen" className="calendar-fullscreen">
       {hasWeekData && (
         <>
-          <CalendarNav calendarData={calendarData} />
+          <CalendarNav calendarData={calendarData} setWeekToGo={setWeekToGo} weekToGo={weekToGo} />
 
           <div className="week-grid">
             {weekData.map((dayData, index) => {
