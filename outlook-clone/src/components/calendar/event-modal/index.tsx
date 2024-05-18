@@ -1,30 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import './eventModal.scss';
-import { EventModalProps } from '@/types';
+import { EventModalProps, FormDataTypes } from '@/types';
 
 const mockFormData = {
   eventTitle: '',
+  eventDescription: '',
+  startDate: '',
   endDate: '',
+  startTime: '',
+  endTime: '',
   allDay: false,
-  eventDescription: ''
 }
 
 const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormDataTypes>({
     ...mockFormData,
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    endTime: '',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked } = e.target;
+
+    const updatedValue = type === 'checkbox' ? checked : value;
+
     setFormData(prevState => ({
       ...prevState,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: updatedValue,
+      ...adjustTimes(name, updatedValue, prevState)
     }));
   };
+
+  const adjustTimes = (name: string, value: any, prevState: FormDataTypes) => {
+    const updates: Partial<FormDataTypes> = {};
+  
+    if (name === 'allDay' && value === true || prevState.allDay) {
+      updates.startTime = '';
+      updates.endTime = '';
+    }
+  
+    return updates;
+  };
+
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +56,10 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate 
       endTime: suggestedDate.endTime,
     })
   }, [suggestedDate])
+
+  useEffect(() => {
+    console.log("form data", formData)
+  }, [formData])
 
 
   if (!isOpen) return null;
@@ -61,9 +81,9 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate 
                 <input type='time' name='startTime' value={formData.startTime} onChange={handleChange} disabled={formData.allDay} />
 
                 <div className="input-all-day">
-                    <input type='checkbox' id='allDay' name='allDay' checked={formData.allDay} onChange={handleChange} />
-                    <label htmlFor='allDay'>All Day</label>
-                  </div>
+                  <input type='checkbox' id='allDay' name='allDay' checked={formData.allDay} onChange={handleChange} />
+                  <label htmlFor='allDay'>All Day</label>
+                </div>
               </div>
 
               <div className="inputs-date-config">
@@ -76,7 +96,7 @@ const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate 
             <textarea id='eventDescription' name='eventDescription' value={formData.eventDescription} onChange={handleChange}></textarea>
 
             <div className='modal-footer'>
-              <button className="SubmitButton" type='submit'>Create</button>
+              <button className="SubmitButton">Create</button>
               <button className="cancelButton" onClick={onClose}>Cancel</button>
             </div>
           </form>

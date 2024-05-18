@@ -10,9 +10,9 @@ export type CalendarDataTypes = {
 };
 
 export type CalendarNavPropsTypes = {
-  calendarData: CalendarDataTypes | null,
+  calendarData: CalendarDataTypes | null;
   setWeekToGo: React.Dispatch;
-  weekToGo: any,
+  weekToGo: any;
 };
 
 export type SuggestedDate = {
@@ -27,13 +27,15 @@ type EventModalProps = {
   suggestedDate: SuggestedDate;
 };
 
-export type EventFormValues = {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  attendees: string;
-}
+export type FormDataTypes = {
+  eventTitle: string;
+  eventDescription: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  allDay: boolean;
+};
 
 export type WeekDay = {
   name: string;
