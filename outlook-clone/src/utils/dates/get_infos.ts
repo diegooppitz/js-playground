@@ -90,11 +90,11 @@ export const getNextRoundedTime = (
   return `${nextSuggestedHours}:${nextSuggestedMinutes}`;
 };
 
-export const getMockEventData = {
-  eventTitle: '',
-  eventDescription: '',
-  startDate: '',
-  endDate: '',
+export const mockEventData = {
+  id: null,
+  title: '',
+  description: '',
+  date: '',
   startTime: '',
   endTime: '',
   allDay: false,

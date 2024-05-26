@@ -34,3 +34,10 @@ export const formatWeekName = (date: Date): string => {
 export const formatWeekDay = (date: Date): string => {
     return date.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" });
 };
+
+export const formatDate = (date: Date) => {
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const year = date.getUTCFullYear();
+    return `${year}-${month}-${day}`;
+  };

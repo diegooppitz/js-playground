@@ -6,9 +6,10 @@ import {
   getEventSuggestedDate,
 } from '@/utils/dates/get_infos';
 import { manageDayInfos } from '@/utils/dates/manage_infos';
-import { CalendarDataTypes, WeekDay } from '@/types';
+import { CalendarDataTypes, WeekDay, EventDataTypes } from '@/types';
 import './calendar.scss';
 import EventModal from '@/components/calendar/event-modal';
+import { formatDate } from '@/utils/dates/format_infos';
 
 export const dayDateInfo = (dayData: any) => {
   const { weekDay, monthDay, dateIsToday } = manageDayInfos(dayData) || {};
@@ -16,6 +17,7 @@ export const dayDateInfo = (dayData: any) => {
 };
 
 const Calendar: React.FC = () => {
+  const [eventsData, setEventsData] = useState<EventDataTypes[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [suggestedDate, setSuggestedDate] = useState({
     selectedDate: '',
@@ -28,26 +30,13 @@ const Calendar: React.FC = () => {
   const weekData: WeekDay[] = getFormattedDateInfo(weekToGo).week;
   const hasWeekData = weekData?.length > 0;
 
-  const formatDate = (date: Date) => {
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-  };
-
-  const getSuggestedDate = async (selectedDate: string) => {
+  const openEventModal = async (selectedDate: string) => {
     const initialEventData = getEventSuggestedDate();
     setSuggestedDate({ selectedDate, ...initialEventData });
-  };
-
-  const openEventModal = async (selectedDate: string) => {
-    await getSuggestedDate(selectedDate);
-
     setModalIsOpen(true);
   };
 
-  const fetchEventsData = async () => {
-    console.log('aqui');
+  const fetchEventData = async () => {
     try {
       const response = await fetch('/api/calendar', {
         method: 'GET',
@@ -55,17 +44,15 @@ const Calendar: React.FC = () => {
           'Content-Type': 'application/json',
         },
       });
-
-      const eventsData = await response.json();
-
-      console.log('events data', eventsData);
+      const newEventsData = await response.json();
+      setEventsData(newEventsData);
     } catch (error) {
       console.error('request error:', error);
     }
   };
 
   useEffect(() => {
-    fetchEventsData();
+    fetchEventData();
   }, []);
 
   return (
@@ -82,7 +69,7 @@ const Calendar: React.FC = () => {
             {weekData.map((dayData, index) => {
               const { monthDay, weekDay, dateIsToday } =
                 dayDateInfo(dayData) || {};
-
+              const dayDate = formatDate(dayData.date);
               const isToday = dateIsToday
                 ? 'date-day-today date-day'
                 : 'date-day';
@@ -91,7 +78,7 @@ const Calendar: React.FC = () => {
                 <div
                   key={index}
                   className="date-column"
-                  onClick={() => openEventModal(formatDate(dayData.date))}
+                  onClick={() => openEventModal(dayDate)}
                 >
                   <div
                     data-testid={`date-wrapper-${index}`}
@@ -110,6 +97,21 @@ const Calendar: React.FC = () => {
                       {monthDay}
                     </span>
                   </div>
+
+                  {eventsData.map((event, id) => {
+                    const eventDate = formatDate(new Date(event.date));
+
+                    if (eventDate === dayDate) {
+                      return (
+                        <div key={id} className="event-block">
+                          <strong>{event.title}</strong>
+                          <div>{`${event.startTime} - ${event.endTime}`}</div>
+                        </div>
+                      );
+                    }
+
+                    return null;
+                  })}
                 </div>
               );
             })}

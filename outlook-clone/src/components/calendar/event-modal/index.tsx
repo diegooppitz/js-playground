@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './eventModal.scss';
 import { EventModalProps, EventDataTypes } from '@/types';
-import { getMockEventData } from '@/utils/dates/get_infos';
+import { mockEventData } from '@/utils/dates/get_infos';
 
 const EventModal: React.FC<EventModalProps> = ({
   isOpen,
   onClose,
   suggestedDate,
 }) => {
-  const [formData, setFormData] = useState<EventDataTypes>({ ...getMockEventData });
+  const [formData, setFormData] = useState<EventDataTypes>({
+    ...mockEventData,
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,8 +40,7 @@ const EventModal: React.FC<EventModalProps> = ({
   const updateFormData = async () => {
     setFormData((prevState) => ({
       ...prevState,
-      startDate: suggestedDate.selectedDate,
-      endDate: suggestedDate.selectedDate,
+      date: suggestedDate.selectedDate,
       startTime: suggestedDate.startTime,
       endTime: suggestedDate.endTime,
     }));
@@ -47,8 +48,6 @@ const EventModal: React.FC<EventModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log('form data', formData);
 
     try {
       await fetch('/api/calendar', {
@@ -58,21 +57,8 @@ const EventModal: React.FC<EventModalProps> = ({
         },
         body: JSON.stringify(formData),
       });
-    } catch (error) {
-      console.error('request error:', error);
-    }
 
-    try {
-      const response = await fetch('/api/calendar', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const eventsData = await response.json();
-
-      // console.log('request - events data', eventsData);
+      window.location.reload();
     } catch (error) {
       console.error('request error:', error);
     }
@@ -99,8 +85,8 @@ const EventModal: React.FC<EventModalProps> = ({
               placeholder="Add a title"
               className="input-title"
               type="text"
-              name="eventTitle"
-              value={formData.eventTitle}
+              name="title"
+              value={formData.title}
               onChange={handleChange}
             />
 
@@ -108,15 +94,8 @@ const EventModal: React.FC<EventModalProps> = ({
               <div className="inputs-date-config">
                 <input
                   type="date"
-                  name="startDate"
-                  value={formData.startDate}
-                  onChange={handleChange}
-                  disabled={formData.allDay}
-                />
-                <input
-                  type="time"
-                  name="startTime"
-                  value={formData.startTime}
+                  name="date"
+                  value={formData.date}
                   onChange={handleChange}
                   disabled={formData.allDay}
                 />
@@ -135,9 +114,9 @@ const EventModal: React.FC<EventModalProps> = ({
 
               <div className="inputs-date-config">
                 <input
-                  type="date"
-                  name="endDate"
-                  value={formData.endDate}
+                  type="time"
+                  name="startTime"
+                  value={formData.startTime}
                   onChange={handleChange}
                   disabled={formData.allDay}
                 />
@@ -155,7 +134,7 @@ const EventModal: React.FC<EventModalProps> = ({
             <textarea
               id="eventDescription"
               name="eventDescription"
-              value={formData.eventDescription}
+              value={formData.description}
               onChange={handleChange}
             ></textarea>
 

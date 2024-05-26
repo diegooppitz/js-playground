@@ -28,11 +28,10 @@ type EventModalProps = {
 };
 
 export type EventDataTypes = {
-  eventId:? number,
-  eventTitle: string;
-  eventDescription: string;
-  startDate: string;
-  endDate: string;
+  id: number | null,
+  title: string;
+  description: string;
+  date: string;
   startTime: string;
   endTime: string;
   allDay: boolean;
