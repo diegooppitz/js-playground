@@ -1,103 +1,169 @@
 import React, { useEffect, useState } from 'react';
 import './eventModal.scss';
-import { EventModalProps, FormDataTypes } from '@/types';
+import { EventModalProps, EventDataTypes } from '@/types';
+import { getMockEventData } from '@/utils/dates/get_infos';
 
-const mockFormData = {
-  eventTitle: '',
-  eventDescription: '',
-  startDate: '',
-  endDate: '',
-  startTime: '',
-  endTime: '',
-  allDay: false,
-}
+const EventModal: React.FC<EventModalProps> = ({
+  isOpen,
+  onClose,
+  suggestedDate,
+}) => {
+  const [formData, setFormData] = useState<EventDataTypes>({ ...getMockEventData });
 
-const EventModal: React.FC<EventModalProps> = ({ isOpen, onClose, suggestedDate }) => {
-  const [formData, setFormData] = useState<FormDataTypes>({
-    ...mockFormData,
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value, type, checked } = e.target;
 
     const updatedValue = type === 'checkbox' ? checked : value;
 
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: updatedValue,
-      ...adjustTimes(name, updatedValue, prevState)
+      ...adjustTimes(name, updatedValue, prevState),
     }));
   };
 
-  const adjustTimes = (name: string, value: any, prevState: FormDataTypes) => {
-    const updates: Partial<FormDataTypes> = {};
-  
-    if (name === 'allDay' && value === true || prevState.allDay) {
+  const adjustTimes = (name: string, value: any, prevState: EventDataTypes) => {
+    const updates: Partial<EventDataTypes> = {};
+
+    if ((name === 'allDay' && value === true) || prevState.allDay) {
       updates.startTime = '';
       updates.endTime = '';
     }
-  
+
     return updates;
   };
 
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onClose();
-  };
-
-  useEffect(() => {
-    setFormData({
-      ...mockFormData,
+  const updateFormData = async () => {
+    setFormData((prevState) => ({
+      ...prevState,
       startDate: suggestedDate.selectedDate,
       endDate: suggestedDate.selectedDate,
       startTime: suggestedDate.startTime,
       endTime: suggestedDate.endTime,
-    })
-  }, [suggestedDate])
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log('form data', formData);
+
+    try {
+      await fetch('/api/calendar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error('request error:', error);
+    }
+
+    try {
+      const response = await fetch('/api/calendar', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const eventsData = await response.json();
+
+      // console.log('request - events data', eventsData);
+    } catch (error) {
+      console.error('request error:', error);
+    }
+
+    onClose();
+  };
 
   useEffect(() => {
-    console.log("form data", formData)
-  }, [formData])
-
+    updateFormData();
+  }, [suggestedDate]);
 
   if (!isOpen) return null;
 
   return (
-    <div className='modal-overlay'>
-      <div className='modal'>
-        <div className='modal-header'>
-          <span className='close' onClick={onClose}></span>
+    <div className="modal-overlay">
+      <div className="modal">
+        <div className="modal-header">
+          <span className="close" onClick={onClose}></span>
           <h2>New Event</h2>
         </div>
-        <div className='modal-body'>
+        <div className="modal-body">
           <form onSubmit={handleSubmit}>
-            <input placeholder="Add a title" className="input-title" type='text' name='eventTitle' value={formData.eventTitle} onChange={handleChange} />
+            <input
+              placeholder="Add a title"
+              className="input-title"
+              type="text"
+              name="eventTitle"
+              value={formData.eventTitle}
+              onChange={handleChange}
+            />
 
             <div className="date-configs">
               <div className="inputs-date-config">
-                <input type='date' name='startDate' value={formData.startDate} onChange={handleChange} disabled={formData.allDay} />
-                <input type='time' name='startTime' value={formData.startTime} onChange={handleChange} disabled={formData.allDay} />
+                <input
+                  type="date"
+                  name="startDate"
+                  value={formData.startDate}
+                  onChange={handleChange}
+                  disabled={formData.allDay}
+                />
+                <input
+                  type="time"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleChange}
+                  disabled={formData.allDay}
+                />
 
                 <div className="input-all-day">
-                  <input type='checkbox' id='allDay' name='allDay' checked={formData.allDay} onChange={handleChange} />
-                  <label htmlFor='allDay'>All Day</label>
+                  <input
+                    type="checkbox"
+                    id="allDay"
+                    name="allDay"
+                    checked={formData.allDay}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor="allDay">All Day</label>
                 </div>
               </div>
 
               <div className="inputs-date-config">
-                <input type='date' name='endDate' value={formData.endDate} onChange={handleChange} disabled={formData.allDay} />
-                <input type='time' name='endTime' value={formData.endTime} onChange={handleChange} disabled={formData.allDay} />
+                <input
+                  type="date"
+                  name="endDate"
+                  value={formData.endDate}
+                  onChange={handleChange}
+                  disabled={formData.allDay}
+                />
+                <input
+                  type="time"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleChange}
+                  disabled={formData.allDay}
+                />
               </div>
             </div>
 
-            <label htmlFor='eventDescription'>Event Description:</label>
-            <textarea id='eventDescription' name='eventDescription' value={formData.eventDescription} onChange={handleChange}></textarea>
+            <label htmlFor="eventDescription">Event Description:</label>
+            <textarea
+              id="eventDescription"
+              name="eventDescription"
+              value={formData.eventDescription}
+              onChange={handleChange}
+            ></textarea>
 
-            <div className='modal-footer'>
+            <div className="modal-footer">
               <button className="SubmitButton">Create</button>
-              <button className="cancelButton" onClick={onClose}>Cancel</button>
+              <button className="cancelButton" onClick={onClose}>
+                Cancel
+              </button>
             </div>
           </form>
         </div>

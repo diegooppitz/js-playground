@@ -27,7 +27,8 @@ type EventModalProps = {
   suggestedDate: SuggestedDate;
 };
 
-export type FormDataTypes = {
+export type EventDataTypes = {
+  eventId:? number,
   eventTitle: string;
   eventDescription: string;
   startDate: string;
