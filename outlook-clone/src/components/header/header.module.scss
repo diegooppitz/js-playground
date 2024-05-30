@@ -1,20 +1,21 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #0078d4;
-    color: #fff;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #0078d4;
+  color: #fff;
+
   .logoSection {
     text-decoration: none;
     color: #fff;
   }
-
-  .logoSection h1 {
-    margin: 0;
-    font-size: 20px;
+  
+  .logoSection {
+    h1 {
+      margin: 0;
+      font-size: 20px;
+    }
   }
   
   .navSection {
@@ -30,12 +31,10 @@
     cursor: pointer;
   }
   
-  .navButton:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  .actionSection {
-    
+  .navButton {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
   
   .newEvent {
@@ -47,7 +46,9 @@
     text-decoration: none;
   }
   
-  .newEvent:hover {
-    background-color: #e5e5e5;
+  .newEvent {
+    &:hover {
+      background-color: #e5e5e5;
+    }
   }
-  
+}

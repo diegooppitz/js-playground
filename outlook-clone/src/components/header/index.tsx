@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './header.module.css';
+import styles from './header.module.scss';
 
 const Header = () => {
   return (
@@ -7,9 +7,6 @@ const Header = () => {
       <a className={styles.logoSection} href='/'>
         <h1 id="header-title">Outlook Calendar</h1>
       </a>
-      <div className={styles.actionSection}>
-        <a className={styles.newEvent} href='/new-event'>New Event</a>
-      </div>
     </header>
   );
 }
