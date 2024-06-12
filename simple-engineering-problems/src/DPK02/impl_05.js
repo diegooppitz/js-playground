@@ -1,21 +1,12 @@
-const isValueValid = (value) => {
-  return Array.isArray(value) && value.length > 0;
-};
+const reverseArray = (originalArray) => {
+  let reversedString = '';
 
-const unshift = (array, input) => {
-  const arrayCopy = [input, ...array];
-  return arrayCopy;
-}
-
-const reverseArray = (input) => {
-  if (!isValueValid(input)) return 'Invalid input';
-
-  let reversed = [];
-  for (let i = 0; i < input.length; i++) {
-    reversed = unshift(reversed, input[i]);
+  for (let index = 0; index < originalArray.length; index++) {
+    const commaSeparator = index < originalArray.length - 1 ? ', ' : '';
+    reversedString = originalArray[index] + commaSeparator + reversedString;
   }
 
-  return reversed;
+  return reversedString;
 };
 
 console.log(reverseArray([1, 2, 3, 4, 5]));
