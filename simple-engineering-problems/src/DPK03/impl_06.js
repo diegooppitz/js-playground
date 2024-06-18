@@ -1,7 +1,7 @@
 const isEmail = (value) => value.includes('@');
 
 const lookupById = (map, id) => {
-  return map.id === id ? map.name : "Error: ID not found";
+  return map.id === id ? map : "Error: ID not found";
 };
 
 const lookupByEmail = (map, email) => {
