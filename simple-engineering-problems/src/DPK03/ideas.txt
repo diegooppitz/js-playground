@@ -1,2 +1,0 @@
-// para impl_10: procurar num array de usuarios ao inves de um objeto
-// para impl_11: copiar da 10 e poder pesquisar de um usuário ou para multiplos, com um array de entrada com multiplos valores, podendo ser de vários tipos
