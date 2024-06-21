@@ -31,7 +31,5 @@ const pattern_matcher = (country) => {
   console.log(pattern_matcher('Brazil')); // Portuguese
   console.log(pattern_matcher('Spain'));  // Spanish
   console.log(pattern_matcher('Italy'));  // Italian
-  console.log(pattern_matcher('France')); // French
-  console.log(pattern_matcher('Germany'));// German
   console.log(pattern_matcher('Japan'));  // Country not found
   

@@ -1,30 +1,23 @@
 const countries = ['Usa', 'Brazil', 'Spain', 'Italy', 'France', 'Germany'];
-const languages = [
-  'English',
-  'Portuguese',
-  'Spanish',
-  'Italian',
-  'French',
-  'German',
-];
+const languages = ['English', 'Portuguese', 'Spanish', 'Italian', 'French', 'German'];
 
 const findIndex = (array, target) => {
-    let resultIndex = -1;
-    const arrayLength = array.length;
-  
-    for (let i = 0; i < arrayLength; i++) {
-      const matchesTarget = array[i] === target;
-      resultIndex += matchesTarget * (i - resultIndex);
-    }
-  
-    return resultIndex;
-  };
+  let index = -1;
+  const length = array.length;
+
+  for (let i = 0; i < length; i++) {
+    const isMatch = array[i] === target;
+    index += isMatch * (i - index);
+  }
+
+  return index;
+};
 
 const pattern_matcher = (country) => {
   const index = findIndex(countries, country);
-  const validIndex = (index + 1) % (countries.length + 1) - 1;
+  const validIndex = (index + 1) * (index >= 0) - 1;
 
-  return validIndex >= 0 ? languages[validIndex] : 'Country not found';
+  return languages[validIndex] || 'Country not found';
 };
 
 console.log(pattern_matcher('Usa'));    // English
