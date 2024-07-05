@@ -18,7 +18,7 @@ const getIndex = (country) => {
 
 const pattern_matcher = (country) => {
   const countryIndex = getIndex(country);
-  return languages[countryIndex >= 0 ? countryIndex : languages.length - 1]; // 'Not found' se -1
+  return languages[countryIndex >= 0 ? countryIndex : languages.length - 1]; //
 };
 
 console.log('BR - result', pattern_matcher('Brazil')); // Output: Portuguese
