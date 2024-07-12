@@ -14,5 +14,5 @@ const group_by = (list, size) => {
 }
 
 console.log(group_by([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3));
-
 console.log(group_by(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"], 3));
+console.log(group_by(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"], 5));

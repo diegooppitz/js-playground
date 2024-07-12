@@ -21,6 +21,5 @@ const groupBy = (list, size) => {
     return result;
 };
 
-// Test cases
 console.log(groupBy([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3));
 console.log(groupBy(["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"], 3));
