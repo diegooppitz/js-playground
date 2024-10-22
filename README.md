@@ -1,2 +1,6 @@
-### Javascript codes playground
-I created this repository to put the codes of different study projects using React, Node, Vue,js and others. Each folder in the repository has a different study project.
+### Javascript Codes Playground
+
+Thank you for visiting my JavaScript Codes Playground! This repository is a collection of various study projects where I explore and practice coding with React, Vue, Node and Vanilla. Each folder within this repository represents a unique project, focusing on different aspects and functionalities.
+
+#### Purpose
+ The primary goal is to experiment with and understand the various features and capabilities of React, Vue, Vanilla, Node and Next.js by building different projects.
