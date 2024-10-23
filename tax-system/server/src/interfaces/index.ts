@@ -1,4 +1,4 @@
-import { ProductData } from "@/types";
+import { ProductData } from "src/types";
 
 export interface IConcreteTaxState {
     product: ProductData;

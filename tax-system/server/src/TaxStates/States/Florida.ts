@@ -1,13 +1,13 @@
-import { IConcreteTaxState } from "@/interfaces";
-import { ProductData, YearsTaxMethodMap } from "@/types";
+import { IConcreteTaxState } from "src/interfaces";
+import { ProductData, YearsTaxMethodMap } from "src/types";
 import { calculateTotalTax } from "./Common";
 
-export class NewYork implements IConcreteTaxState {
+export class Florida implements IConcreteTaxState {
     taxRates
     product
     errorMsg
 
-   #yearTaxMethods: YearsTaxMethodMap
+    #yearTaxMethods: YearsTaxMethodMap
 
     constructor(product: ProductData, federalTaxRate: number) {
         this.product = product;
@@ -15,13 +15,11 @@ export class NewYork implements IConcreteTaxState {
         this.errorMsg = ''
 
         this.#yearTaxMethods = {
-            '2011': this.#year2010,
-            '2013': this.#year2013,
-            '2015': this.#year2015,
-            '2016': this.#year2016,
+            '2014': this.#year2014,
+            '2018': this.#year2018,
             '2020': this.#year2020,
         };
-        
+
         this.#calculateTaxRateForYear(this.product.year);
     }
 
@@ -29,11 +27,11 @@ export class NewYork implements IConcreteTaxState {
         return this.errorMsg ? this.errorMsg : this.taxRates;
     }
 
-   #calculateTaxRateForYear(year: string) {
-        if (this.#yearTaxMethods[year]) {
-            this.#yearTaxMethods[year].call(this);
-        } else {
+    #calculateTaxRateForYear(year: string) {
+        if (this.#yearTaxMethods[year]) this.#yearTaxMethods[year].call(this);
+        else {
             let closestYear = this.#findClosestYear(year);
+
             if (closestYear) this.#yearTaxMethods[closestYear].call(this);
             else {
                 this.errorMsg = 'No tax data available for the year.';
@@ -41,9 +39,9 @@ export class NewYork implements IConcreteTaxState {
         }
     }
 
-   #findClosestYear(targetYear: string): string | null {
+    #findClosestYear(targetYear: string): string | null {
         const targetYearInt = parseInt(targetYear);
-        const startYear = 2010;
+        const startYear = 2009
         const offsetForArrayIndex = 1;
     
         const yearsArray = Array.from(
@@ -54,41 +52,25 @@ export class NewYork implements IConcreteTaxState {
         return yearsArray.find(year => this.#yearTaxMethods[year]) || null;
     }
 
-   #year2010() {
-        this.taxRates.salesTax = 4;
+    #year2014() {
+        this.taxRates.salesTax = 5.5;
         this.taxRates.exciseTax = 10;
         const result = calculateTotalTax(this.taxRates);
 
         if (result.errorMsg) this.errorMsg = result.errorMsg;
     }
 
-   #year2013() {
-        this.taxRates.salesTax = 0;
-        this.taxRates.exciseTax = 10;
-        const result = calculateTotalTax(this.taxRates);
-
-        if (result.errorMsg) this.errorMsg = result.errorMsg;
-    }
-
-   #year2015() {
-        this.taxRates.salesTax = 3;
-        this.taxRates.exciseTax = 10;
-        const result = calculateTotalTax(this.taxRates);
-
-        if (result.errorMsg) this.errorMsg = result.errorMsg;
-    }
-
-   #year2016() {
+    #year2018() {
         this.taxRates.salesTax = 6;
-        this.taxRates.exciseTax = 12;
+        this.taxRates.exciseTax = 11.5;
         const result = calculateTotalTax(this.taxRates);
 
         if (result.errorMsg) this.errorMsg = result.errorMsg;
     }
 
-   #year2020() {
-        this.taxRates.salesTax = 8;
-        this.taxRates.exciseTax = 12;
+    #year2020() {
+        this.taxRates.salesTax = 5.5;
+        this.taxRates.exciseTax = 11;
         const result = calculateTotalTax(this.taxRates);
 
         if (result.errorMsg) this.errorMsg = result.errorMsg;

@@ -1,4 +1,4 @@
-import { ProductData, TaxInfo, StateFactoryMap } from "@/types";
+import { ProductData, TaxInfo, StateFactoryMap } from "src/types";
 import { California } from "./States/California";
 import { NewYork } from "./States/NewYork";
 import { Ohio } from "./States/Ohio";

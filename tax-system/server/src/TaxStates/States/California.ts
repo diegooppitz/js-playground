@@ -1,5 +1,5 @@
-import { IConcreteTaxState } from "@/interfaces";
-import { ProductData, YearsTaxMethodMap } from "@/types";
+import { IConcreteTaxState } from "src/interfaces";
+import { ProductData, YearsTaxMethodMap } from "src/types";
 import { calculateTotalTax } from "./Common";
 
 export class California implements IConcreteTaxState {

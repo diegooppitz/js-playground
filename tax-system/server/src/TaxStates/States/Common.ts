@@ -1,4 +1,4 @@
-import { IConcreteTaxRates } from "@/interfaces";
+import { IConcreteTaxRates } from "src/interfaces";
 
 export const calcTaxRateForYear = (year: string, context: any) => {
     const methodName: string = `year${year}`;

@@ -1,6 +1,6 @@
 import { Product } from "../Product";
 import { federalTaxRate } from "../mock";
-import { ProductData, TaxInfo } from "@/types";
+import { ProductData, TaxInfo } from "src/types";
 import { TaxStates } from "../TaxStates";
 
 export class TaxSystem {
