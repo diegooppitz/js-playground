@@ -15,6 +15,7 @@ export class Florida implements IConcreteTaxState {
         this.errorMsg = ''
 
         this.#yearTaxMethods = {
+            '2010': this.#year2010,
             '2014': this.#year2014,
             '2018': this.#year2018,
             '2020': this.#year2020,
@@ -50,6 +51,14 @@ export class Florida implements IConcreteTaxState {
         );
     
         return yearsArray.find(year => this.#yearTaxMethods[year]) || null;
+    }
+
+    #year2010() {
+        this.taxRates.salesTax = 0;
+        this.taxRates.exciseTax = 10;
+        const result = calculateTotalTax(this.taxRates);
+
+        if (result.errorMsg) this.errorMsg = result.errorMsg;
     }
 
     #year2014() {

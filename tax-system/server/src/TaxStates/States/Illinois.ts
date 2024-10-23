@@ -15,6 +15,7 @@ export class Illinois implements IConcreteTaxState {
         this.errorMsg = ''
 
         this.#yearTaxMethods = {
+            '2010': this.#year2010,
             '2013': this.#year2013,
             '2017': this.#year2017,
             '2018': this.#year2018,
@@ -51,6 +52,14 @@ export class Illinois implements IConcreteTaxState {
         );
     
         return yearsArray.find(year => this.#yearTaxMethods[year]) || null;
+    }
+
+    #year2010() {
+        this.taxRates.salesTax = 1.5;
+        this.taxRates.exciseTax = 15;
+        const result = calculateTotalTax(this.taxRates);
+
+        if (result.errorMsg) this.errorMsg = result.errorMsg;
     }
 
     #year2013() {

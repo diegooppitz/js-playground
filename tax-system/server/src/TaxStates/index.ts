@@ -1,13 +1,18 @@
 import { ProductData, TaxInfo, StateFactoryMap } from "src/types";
 import { California } from "./States/California";
-import { NewYork } from "./States/NewYork";
+import { Florida } from "./States/Florida";
 import { Ohio } from "./States/Ohio";
+import { NewYork } from "./States/NewYork";
+import { Illinois } from "./States/Illinois";
+
 
 export class TaxStates {
     taxInfo: TaxInfo;
     #federalTax: number;
     #stateFactoryMap: StateFactoryMap = {
         'california': (product) => this.#createCalifornia(product),
+        'florida': (product) => this.#createFlorida(product),
+        'illinois': (product) => this.#createIllinois(product),
         'ohio': (product) => this.#createOhio(product),
         'new_york': (product) => this.#createNewYork(product),
     };
@@ -34,6 +39,26 @@ export class TaxStates {
         return { taxRates: result };
     }
 
+    #createFlorida(product: ProductData): TaxInfo {
+        const florida = new Florida(product, this.#federalTax);
+        const result = florida.getTaxRates();
+
+        if (typeof result === 'string') {
+            return { error: result };
+        }
+        return { taxRates: result };
+    }
+
+    #createIllinois(product: ProductData): TaxInfo {
+        const illinois = new Illinois(product, this.#federalTax);
+        const result = illinois.getTaxRates();
+
+        if (typeof result === 'string') {
+            return { error: result };
+        }
+        return { taxRates: result };
+    }
+
     #createOhio(product: ProductData): TaxInfo {
         const ohio = new Ohio(product, this.#federalTax);
         const result = ohio.getTaxRates();
@@ -45,8 +70,8 @@ export class TaxStates {
     }
 
     #createNewYork(product: ProductData): TaxInfo {
-        const ohio = new NewYork(product, this.#federalTax);
-        const result = ohio.getTaxRates();
+        const newYork = new NewYork(product, this.#federalTax);
+        const result = newYork.getTaxRates();
 
         if (typeof result === 'string') {
             return { error: result };

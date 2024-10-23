@@ -26,7 +26,6 @@ export class Product {
             baseValue: productDataOverrides?.baseValue ?? defaultProductData.baseValue,
         };
 
-        console.log("product data", newProductData)
         this.#createProduct({ ...newProductData })
     }
 

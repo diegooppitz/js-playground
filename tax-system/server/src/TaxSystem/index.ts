@@ -4,19 +4,32 @@ import { ProductData, TaxInfo } from "src/types";
 import { TaxStates } from "../TaxStates";
 
 export class TaxSystem {
-    result?: TaxInfo;
+    taxInfo?: TaxInfo;
+    product?: Product;
+
+    calcTotalTax(productTaxStates: TaxStates) {
+        const taxRates = productTaxStates?.taxInfo?.taxRates;
+        const totalTaxRate = taxRates?.totalTaxRate;
+
+        const baseValue = this.product?.productData.baseValue || 0;
+        const taxMultiplier = totalTaxRate ? 1 + totalTaxRate / 100 : 1;
+        const totalValue = baseValue * taxMultiplier;
+
+        console.log("product - tax rates:", taxRates);
+        console.log("base value:", baseValue);
+
+        return totalValue;
+    }
 
     initSystem(productDataOverrides?: Partial<ProductData> | null) {
-        const product = new Product(productDataOverrides)
-        const productTaxStates = new TaxStates(product.productData, federalTaxRate);
+        this.product = new Product(productDataOverrides);
 
-        if (productTaxStates.taxInfo.error) {
-            console.log("product -", productTaxStates.taxInfo);
-            this.result = productTaxStates.taxInfo;
-        }
-        else if (productTaxStates.taxInfo.taxRates) {
-            console.log("Product - Tax Rates:", productTaxStates.taxInfo.taxRates);
-            this.result = productTaxStates.taxInfo;
-        }
+        const productTaxStates = new TaxStates(this.product.productData, federalTaxRate);
+        this.taxInfo = productTaxStates.taxInfo;
+
+        if (productTaxStates.taxInfo.error) return;
+
+        this.product.productData.totalValue = this.calcTotalTax(productTaxStates);
+        console.log("product data updated:", this.product.productData);
     }
 }
