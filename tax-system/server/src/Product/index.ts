@@ -5,12 +5,11 @@ export class Product {
     productData: ProductData
 
     constructor(productDataOverrides?: Partial<ProductData> | null) {
-        this.productData = { productId: '', year: '', fiscalState: '', baseValue: 0, totalValue: 0 }
+        this.productData = { year: '', fiscalState: '', baseValue: 0, totalValue: 0 }
         this.#generateProductData(productDataOverrides)
     }
 
     generateRandomProductData = (): ProductData => ({
-        productId: this.#generateRandomProductId(),
         year: this.#generateRandomYear().toString(),
         fiscalState: usStates[Math.floor(Math.random() * usStates.length)],
         baseValue: this.#generateRandomBaseValue(),
@@ -20,7 +19,6 @@ export class Product {
         const defaultProductData = this.generateRandomProductData();
 
         const newProductData: ProductData = {
-            productId: productDataOverrides?.productId ?? defaultProductData.productId,
             year: productDataOverrides?.year ?? defaultProductData.year,
             fiscalState: productDataOverrides?.fiscalState ?? defaultProductData.fiscalState,
             baseValue: productDataOverrides?.baseValue ?? defaultProductData.baseValue,
@@ -28,8 +26,6 @@ export class Product {
 
         this.#createProduct({ ...newProductData })
     }
-
-    #generateRandomProductId = () => Math.random().toString(36).substring(2, 11);
 
     #generateRandomYear = () => {
         const START_YEAR = 2010;
@@ -43,10 +39,9 @@ export class Product {
         return Math.floor(Math.random() * MAX_BASE_VALUE);
     }
 
-    #createProduct({ productId, year, fiscalState, baseValue }: ProductData) {
+    #createProduct({ year, fiscalState, baseValue }: ProductData) {
         if (year && fiscalState && baseValue) {
             this.productData = {
-                productId,
                 year,
                 fiscalState,
                 baseValue,

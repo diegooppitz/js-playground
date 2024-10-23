@@ -10,15 +10,15 @@ export class TaxSystem {
     calcTotalTax(productTaxStates: TaxStates) {
         const taxRates = productTaxStates?.taxInfo?.taxRates;
         const totalTaxRate = taxRates?.totalTaxRate;
-
+    
         const baseValue = this.product?.productData.baseValue || 0;
         const taxMultiplier = totalTaxRate ? 1 + totalTaxRate / 100 : 1;
         const totalValue = baseValue * taxMultiplier;
-
+    
         console.log("product - tax rates:", taxRates);
         console.log("base value:", baseValue);
-
-        return totalValue;
+    
+        return parseFloat(totalValue.toFixed(2));
     }
 
     initSystem(productDataOverrides?: Partial<ProductData> | null) {
