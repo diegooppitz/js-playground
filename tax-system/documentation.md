@@ -99,17 +99,3 @@ Basicamente o sistema recebe informações de um produto, monta seu objeto e com
 **Interface**: Uma interface é semelhante a uma classe abstrata, mas contém apenas declarações de métodos, sem implementações. As classes que implementam uma interface devem fornecer implementações para todos os métodos declarados na interface.
 
 **Método Abstrato**: Método com declaração na classe abstrata mas com implementação concreta nas subclasses
-
-## Diagrama(Em desenvolvimento)
-- (Necessário indentar e revisar o diagrama)
-[Link para o diagrama](https://documents.lucid.app/documents/6b89f7fc-a249-4415-ac78-a4ac1ad282a7/pages/HWEp-vi-RSFO?a=3551&x=-20&y=-59&w=2620&h=1274&store=1&accept=image%2F*&auth=LCA%20dd78e80d820e038f310663e4584bb7ba4f08b2dee24debee009316601a15df5b-ts%3D1699881425)
-
-
-  
-
-### Links
-[Pagina no Notion com Docs e Diagrama completo](https://insidious-debt-983.notion.site/Diagrama-146c66b842674dc0bf4579eb2d309843)
-
-[Por que usei cada design pattern](https://www.notion.so/Por-que-usei-cada-design-pattern-d3dc4c940428417880dbdaeb723030a3?pvs=21)
-
-[UML](https://www.notion.so/UML-ddaa94d1ee4442fe92b616b37a6c6620?pvs=4) 
