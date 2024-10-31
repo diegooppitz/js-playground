@@ -10,10 +10,11 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CalcResults from "@/components/calcResults";
 import styles from "../styles/home.module.scss";
 import { ResultDataTypes } from "@/types";
-
 
 const states = [
   { label: "California", value: "california" },
@@ -34,6 +35,11 @@ export default function Home() {
   const [resultData, setResultData] = useState<ResultDataTypes>(null);
 
   const API_URL = "http://localhost:4000/api/tax-system";
+
+  const getStateLabel = (fiscalState: string): string => {
+    const selectedState = states.filter(state => fiscalState === state.value);
+    return selectedState[0].label;
+  }
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -58,16 +64,29 @@ export default function Home() {
       if (data.product) {
         setResultData({
           totalValue: data.product.totalValue,
-          fiscalState: data.product.fiscalState,
+          fiscalState: getStateLabel(data.product.fiscalState),
         });
       }
     } catch (error) {
-      console.error("Error:", error);
+      showErrorToast()
     }
   };
 
+  function showErrorToast() {
+    toast.error("OPS, something is wrong!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
+
   return (
     <Container maxWidth="xs" className={styles.container}>
+      <ToastContainer />
       <Typography
         variant="h3"
         align="center"
@@ -107,11 +126,12 @@ export default function Home() {
             label="State"
             required
           >
-            {states.map((option) => (
+            {states.map((option) => {
+              return (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
-            ))}
+            )})}
           </Select>
         </FormControl>
 
