@@ -1,0 +1,42 @@
+.resultContainer {
+    max-width: 90%;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+
+  
+    .resultHeader {
+      display: flex;
+      align-items: center;
+      color: #1976d2;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+  
+    .resultTable {
+      width: 100%;
+      font-size: 1rem;
+  
+      .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+  
+      .label {
+        color: #757575;
+      }
+  
+      .value {
+        font-weight: 600;
+        color: #424242;
+      }
+    }
+  }
+  

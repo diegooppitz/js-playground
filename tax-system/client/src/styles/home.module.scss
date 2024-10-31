@@ -1,0 +1,31 @@
+.container {
+  margin-top: 5rem;
+
+  .title {
+    margin-bottom: 0.5rem;
+  }
+
+  .subtext {
+    margin-bottom: 2rem;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .formControl {
+    margin-bottom: 2rem;
+    width: 90%;
+  }
+
+  .resultText {
+    margin-top: 2rem;
+  }
+
+  .submitButton {
+    width: 90%;
+    display: block;
+  }
+}
