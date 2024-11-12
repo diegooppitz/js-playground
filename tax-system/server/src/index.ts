@@ -15,7 +15,6 @@ const taxSystem = new TaxSystem();
 app.get('/api/tax-system', (req, res) => {
     taxSystem.initSystem();
     const listStates = taxSystem?.statesInfo?.listStates;
-    console.log("list states", listStates);
 
     res.status(201).json(listStates);
 });
@@ -30,7 +29,6 @@ app.post('/api/tax-system/calculate', (req, res) => {
     taxSystem.getProductTaxes(productData)
 
     const productInfo = taxSystem.product?.productData;
-    console.log("product info", productInfo);
 
     if (productInfo) {
         res.status(201).json({
