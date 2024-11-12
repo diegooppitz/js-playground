@@ -6,7 +6,6 @@ export class California implements IConcreteTaxState {
     taxRates
     product
     errorMsg
-
     #yearTaxMethods: YearsTaxMethodMap
 
     constructor(product: ProductData, federalTaxRate: number) {

@@ -1,7 +1,7 @@
 "use client";
 import { Typography, Box } from "@mui/material";
-import styles from "./calcResults.module.scss";
 import { CalcResultsTypes } from "@/types";
+import styles from "./calcResults.module.scss";
 
 const CalcResults: React.FC<CalcResultsTypes> = ({ resultData, baseValue }) => {
   return (

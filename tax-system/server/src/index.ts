@@ -12,7 +12,14 @@ app.use(cors());
 
 const taxSystem = new TaxSystem();
 
-app.post('/api/tax-system', (req, res) => {
+app.get('/api/tax-system', (req, res) => {
+    const listStates = taxSystem.listStates;
+    console.log("list states", listStates);
+
+    res.status(201).json(listStates);
+});
+
+app.post('/api/tax-system/calculate', (req, res) => {
     const productData: ProductData = {
         year: req.body.year,
         fiscalState: req.body.fiscalState,

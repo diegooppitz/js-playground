@@ -4,11 +4,12 @@ import { ProductData, TaxInfo } from "src/types";
 import { TaxStates } from "../TaxStates";
 
 export class TaxSystem {
+    listStates?: any;
     taxInfo?: TaxInfo;
     product?: Product;
 
-    calcTotalTax(productTaxStates: TaxStates) {
-        const taxRates = productTaxStates?.taxInfo?.taxRates;
+    calcTotalTax() {
+        const taxRates = this.taxInfo?.taxRates;
         const totalTaxRate = taxRates?.totalTaxRate;
     
         const baseValue = this.product?.productData.baseValue || 0;
@@ -21,11 +22,12 @@ export class TaxSystem {
     initSystem(productDataOverrides?: Partial<ProductData> | null) {
         this.product = new Product(productDataOverrides);
 
-        const productTaxStates = new TaxStates(this.product.productData, federalTaxRate);
-        this.taxInfo = productTaxStates.taxInfo;
+        const statesInfo = new TaxStates(this.product.productData, federalTaxRate);
+        this.listStates = statesInfo.listStates;
+        this.taxInfo = statesInfo.taxInfo;
 
-        if (productTaxStates.taxInfo.error) return;
+        if (this.taxInfo.error) return;
 
-        this.product.productData.totalValue = this.calcTotalTax(productTaxStates);
+        this.product.productData.totalValue = this.calcTotalTax();
     }
 }

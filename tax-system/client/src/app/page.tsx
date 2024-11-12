@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import {
   Container,
   Typography,
@@ -10,10 +11,8 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import styles from "@/styles/home.module.scss";
 import CalcResults from "@/components/calcResults";
-import styles from "../styles/home.module.scss";
 import { ResultDataTypes } from "@/types";
 
 const states = [
@@ -34,8 +33,22 @@ export default function Home() {
   const [baseValue, setBaseValue] = useState("");
   const [resultData, setResultData] = useState<ResultDataTypes>(null);
 
-  const API_URL = "http://localhost:4000/api/tax-system";
+  const API_URL = "http://localhost:4000/api/tax-system/calculate";
 
+  const fetchStates = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/tax-system', {
+        method: "GET",
+      });
+  
+      const data = await response.json();
+      console.log("data", data);
+    } catch (error) {
+      console.error(error);
+      showErrorToast();
+    }
+  };
+  
   const getStateLabel = (fiscalState: string): string => {
     const selectedState = states.filter(state => fiscalState === state.value);
     return selectedState[0].label;
@@ -72,7 +85,7 @@ export default function Home() {
     }
   };
 
-  function showErrorToast() {
+  const showErrorToast = () => {
     toast.error("OPS, something is wrong!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -83,6 +96,8 @@ export default function Home() {
       theme: "colored",
     });
   }
+
+  fetchStates();
 
   return (
     <Container maxWidth="xs" className={styles.container}>
