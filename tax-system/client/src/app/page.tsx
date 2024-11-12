@@ -13,46 +13,42 @@ import {
 } from "@mui/material";
 import styles from "@/styles/home.module.scss";
 import CalcResults from "@/components/calcResults";
-import { ResultDataTypes } from "@/types";
-
-const states = [
-  { label: "California", value: "california" },
-  { label: "Florida", value: "florida" },
-  { label: "Illinois", value: "illinois" },
-  { label: "Ohio", value: "ohio" },
-  { label: "New York", value: "new_york" },
-];
-
-const years = Array.from({ length: 10 }, (_, i) =>
-  (new Date().getFullYear() - i).toString()
-);
+import { ResultDataTypes, StateOption } from "@/types";
+import { API_URL } from "@/utils";
 
 export default function Home() {
-  const [year, setYear] = useState("");
-  const [state, setState] = useState("");
-  const [baseValue, setBaseValue] = useState("");
-  const [resultData, setResultData] = useState<ResultDataTypes>(null);
+  const [listStates, setListStates] = useState<StateOption[]>([]);
+  const [year, setYear] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [baseValue, setBaseValue] = useState<string>("");
+  const [resultData, setResultData] = useState<ResultDataTypes | null>(null);
 
-  const API_URL = "http://localhost:4000/api/tax-system/calculate";
+  const years = Array.from({ length: 10 }, (_, i) =>
+    (new Date().getFullYear() - i).toString()
+  );
 
   const fetchStates = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/tax-system', {
+      const response = await fetch(API_URL, {
         method: "GET",
       });
-  
+
       const data = await response.json();
-      console.log("data", data);
+      if (data && Array.isArray(data)) {
+        setListStates(data);
+      }
     } catch (error) {
       console.error(error);
       showErrorToast();
     }
   };
-  
+
   const getStateLabel = (fiscalState: string): string => {
-    const selectedState = states.filter(state => fiscalState === state.value);
-    return selectedState[0].label;
-  }
+    const selectedState = listStates.find(
+      (state) => fiscalState === state.name
+    );
+    return selectedState ? selectedState.label : "";
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -64,7 +60,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}calculate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,15 +69,16 @@ export default function Home() {
       });
 
       const data = await response.json();
+      const productInfo = data?.productInfo;
 
-      if (data.product) {
+      if (productInfo) {
         setResultData({
-          totalValue: data.product.totalValue,
-          fiscalState: getStateLabel(data.product.fiscalState),
+          totalValue: productInfo.totalValue,
+          fiscalState: getStateLabel(productInfo.fiscalState),
         });
       }
     } catch (error) {
-      showErrorToast()
+      showErrorToast();
     }
   };
 
@@ -89,15 +86,15 @@ export default function Home() {
     toast.error("OPS, something is wrong!", {
       position: "bottom-right",
       autoClose: 5000,
-      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-      progress: undefined,
       theme: "colored",
     });
-  }
+  };
 
-  fetchStates();
+  useEffect(() => {
+    fetchStates();
+  }, []);
 
   return (
     <Container maxWidth="xs" className={styles.container}>
@@ -141,12 +138,12 @@ export default function Home() {
             label="State"
             required
           >
-            {states.map((option) => {
-              return (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            )})}
+            {listStates.length > 0 &&
+              listStates.map((option) => (
+                <MenuItem key={option.name} value={option.name}>
+                  {option.label}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
 

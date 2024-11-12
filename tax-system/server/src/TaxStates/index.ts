@@ -17,11 +17,10 @@ export class TaxStates {
     new_york: (product) => this.#createNewYork(product),
   };
 
-  constructor(product: ProductData, federalTaxRate: number) {
+  constructor(federalTaxRate: number) {
     this.#federalTax = federalTaxRate;
     this.listStates = this.#populateListStates();
     this.taxInfo = {};
-    this.#getTaxRates(product);
   }
 
   #populateListStates() {
@@ -41,7 +40,11 @@ export class TaxStates {
     return states;
   }
 
-  #getTaxRates(product: ProductData) {
+  getTaxRates(product: ProductData) {
+    this.#calcTaxRates(product)
+  }
+
+  #calcTaxRates(product: ProductData) {
     const stateFactory =
       this.#stateFactoryMap[product.fiscalState.toLowerCase()];
     if (stateFactory) this.taxInfo = stateFactory(product);

@@ -13,7 +13,8 @@ app.use(cors());
 const taxSystem = new TaxSystem();
 
 app.get('/api/tax-system', (req, res) => {
-    const listStates = taxSystem.listStates;
+    taxSystem.initSystem();
+    const listStates = taxSystem?.statesInfo?.listStates;
     console.log("list states", listStates);
 
     res.status(201).json(listStates);
@@ -26,13 +27,14 @@ app.post('/api/tax-system/calculate', (req, res) => {
         baseValue: req.body.baseValue,
     };
 
-    taxSystem.initSystem(productData);
+    taxSystem.getProductTaxes(productData)
 
-    const product = taxSystem.product?.productData;
+    const productInfo = taxSystem.product?.productData;
+    console.log("product info", productInfo);
 
-    if (product) {
+    if (productInfo) {
         res.status(201).json({
-            product,
+            productInfo,
         });
         return;
     }

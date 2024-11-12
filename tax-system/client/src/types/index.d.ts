@@ -6,4 +6,6 @@ export type ResultDataTypes = {
 export type CalcResultsTypes = {
   resultData: ResultDataTypes;
   baseValue: string;
-}
+};
+
+export type StateOption = { label: string; name: string };
