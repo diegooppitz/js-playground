@@ -6,7 +6,7 @@ All available fiscal states and years are already within the system, so the user
 
 ## System Overview
 
-The concept behind the Tax System is to receive information about a product, assemble an object with its relevant details based on various criteria, and then calculate the product’s total value, including applicable taxes. This software handles tax calculations for products based on criteria such as fiscal state, sale year, and product value.
+The concept behind the Tax System is to receive information about a product, assemble an object with its relevant details based on various criteria, and then calculate the product’s total value, including applicable taxes. This software handles tax calculations for products based on criteria such as fiscal state, sale year, and product value. Each state has different years with specific fiscal rules, and tax values can vary significantly between states and years. Additionally, a federal tax is included in the final calculation.
 
 ## Technologies Used
 
