@@ -1,5 +1,5 @@
 // libs
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // helpers
 import { manageLocalStorage } from "../helpers/functions";
