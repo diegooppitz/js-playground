@@ -3,6 +3,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 **First, for this app works, you will need an API_KEY here from weatherapi.com**
+
 After that run the development server:
 
 ```bash
