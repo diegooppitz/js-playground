@@ -3,7 +3,7 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
 // helpers
-import { isCityInStorage } from "../../helpers/functions";
+import { hasApiKey, isCityInStorage } from "../../helpers/functions";
 import { toastConfig, api_url, api_key } from "../../helpers/constants";
 
 // styles
@@ -40,7 +40,7 @@ const SearchForm = ({ setCities }) => {
 
       return data;
     } catch (error) {
-      if (!api_key || api_key?.length === 0) {
+      if (!hasApiKey(api_key)) {
         toast.error("Enable your API_KEY. See the project README.", toastConfig);
         return;
       }

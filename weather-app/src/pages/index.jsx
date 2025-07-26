@@ -2,7 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 
 // helpers
-import { manageLocalStorage } from "../helpers/functions";
+import { hasApiKey, manageLocalStorage } from "../helpers/functions";
+import { api_key } from "../helpers/constants";
 
 // components
 import SearchForm from "../components/searchForm";
@@ -28,8 +29,16 @@ const Home = () => {
     getStoragedCities();
   }, []);
 
+  const InfoError = () => (
+    <div className={styles.infoError}>
+      ⚠️ You must set a valid WeatherAPI key. Please check the project README.
+    </div>
+  );
+
   return (
     <div className={styles.container}>
+      {!hasApiKey(api_key) ? <InfoError /> : null}
+
       <h1 className={styles.appTitle}>Weather App</h1>
       <SearchForm setCities={setCities} />
       <CitiesList cities={cities} setCities={setCities} />
