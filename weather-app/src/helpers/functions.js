@@ -25,3 +25,7 @@ export const isCityInStorage = ({ city, cities }) => {
       return lon === cityLon && lat === cityLat;
     });
   };
+
+  export const hasApiKey = (api_key) => (
+    api_key && api_key?.length > 0
+  );

@@ -3,8 +3,8 @@ import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 
 // helpers
-import { isCityInStorage } from "../../helpers/functions";
-import { toastConfig, api_url } from "../../helpers/constants";
+import { hasApiKey, isCityInStorage } from "../../helpers/functions";
+import { toastConfig, api_url, api_key } from "../../helpers/constants";
 
 // styles
 import styles from "./searchForm.module.scss";
@@ -28,13 +28,23 @@ const SearchForm = ({ setCities }) => {
 
       const data = await response.json();
 
-      if (data.error) {
-        toast.error(data.error.message, toastConfig);
+      if (data?.error) {
+        const errorCode = data?.error?.code;
+        const errorMessage = errorCode === 2008
+          ? "Enable your API_KEY. See the project README."
+          : data?.error?.message;
+
+        toast.error(errorMessage, toastConfig);
         return null;
       }
 
       return data;
-    } catch {
+    } catch (error) {
+      if (!hasApiKey(api_key)) {
+        toast.error("Enable your API_KEY. See the project README.", toastConfig);
+        return;
+      }
+  
       toast.error("An unexpected error occurred", toastConfig);
       return null;
     }
