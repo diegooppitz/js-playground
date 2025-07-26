@@ -2,7 +2,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+**First, for this app works, you will need an API_KEY here from weatherapi.com**
+After that run the development server:
 
 ```bash
 npm run dev
@@ -10,6 +11,6 @@ npm run dev
 yarn dev
 ```
 
-For this app works, you will need an API_KEY here from weatherapi.com
 
-After that, open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
